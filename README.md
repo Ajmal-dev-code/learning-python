@@ -1,1 +1,1 @@
-# learning-python
+# learning-python with my beset friend that is chatgpt he is my BFF

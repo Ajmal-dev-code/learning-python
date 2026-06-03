@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momentum — Habit Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0f14;--bg2:#13161d;--bg3:#1a1e28;--bg4:#222738;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:#e8eaf0;--text2:#8b91a8;--text3:#555d7a;
+  --accent:#7c6af7;--accent2:#a78bfa;--accent-glow:rgba(124,106,247,0.25);
+  --success:#34d399;--danger:#f87171;--warn:#fbbf24;
+  --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+  --radius:16px;--radius-sm:10px;
+  --shadow:0 8px 32px rgba(0,0,0,0.4);--shadow-sm:0 2px 12px rgba(0,0,0,0.3);
+}
+[data-theme="light"]{
+  --bg:#f4f5f9;--bg2:#ffffff;--bg3:#eef0f6;--bg4:#e4e7f0;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.12);
+  --text:#1a1e2e;--text2:#5a6078;--text3:#9ba3be;
+  --accent-glow:rgba(124,106,247,0.15);
+  --shadow:0 8px 32px rgba(0,0,0,0.1);--shadow-sm:0 2px 12px rgba(0,0,0,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background .3s,color .3s}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,textarea,select{font-family:inherit;outline:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:99px}
+
+/* LAYOUT */
+.sidebar{width:260px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:24px 0;position:fixed;top:0;left:0;height:100vh;z-index:100;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.main{margin-left:260px;flex:1;padding:32px;max-width:calc(100vw - 260px)}
+
+/* SIDEBAR */
+.logo{padding:0 24px 24px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.logo-mark{font-family:var(--font-head);font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.5px}
+.logo-sub{font-size:11px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 24px;font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;position:relative}
+.nav-item:hover{color:var(--text);background:var(--bg3)}
+.nav-item.active{color:var(--text);background:var(--bg3)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--accent);border-radius:0 4px 4px 0}
+.nav-icon{font-size:17px;width:20px;text-align:center}
+.nav-label{flex:1}
+.sidebar-footer{margin-top:auto;padding:16px 24px;border-top:1px solid var(--border)}
+.theme-toggle{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--text2)}
+.toggle-pill{width:44px;height:24px;border-radius:99px;background:var(--bg4);border:1px solid var(--border2);position:relative;cursor:pointer;transition:background .3s}
+.toggle-pill.on{background:var(--accent)}
+.toggle-knob{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.toggle-pill.on .toggle-knob{transform:translateX(20px)}
+
+/* TOPBAR + BUTTONS */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.page-title{font-family:var(--font-head);font-size:28px;font-weight:700;letter-spacing:-0.5px}
+.page-sub{font-size:13px;color:var(--text3);margin-top:2px}
+.topbar-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;transition:all .2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px var(--accent-glow)}
+.btn-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--bg4);color:var(--text)}
+.btn-danger{background:rgba(248,113,113,0.15);color:var(--danger);border:1px solid rgba(248,113,113,0.2)}
+.btn-danger:hover{background:rgba(248,113,113,0.25)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* DATE HERO */
+.date-hero{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border2);border-radius:var(--radius);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;position:relative;overflow:hidden}
+.date-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);pointer-events:none}
+.date-day{font-family:var(--font-head);font-size:52px;font-weight:800;line-height:1;letter-spacing:-2px}
+.date-meta{font-size:14px;color:var(--text2);margin-top:4px}
+.date-streak-pill{display:flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--border2);padding:10px 18px;border-radius:99px;font-size:13px;font-weight:500}
+.quote-band{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 20px;font-size:13px;color:var(--text2);font-style:italic;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+
+/* HABIT CARDS */
+.habits-grid{display:flex;flex-direction:column;gap:12px}
+.habit-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);transition:all .25s;position:relative;overflow:hidden}
+.habit-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.habit-card.done{border-color:rgba(52,211,153,0.2);background:linear-gradient(135deg,var(--bg2),rgba(52,211,153,0.03))}
+
+/* status colour accents */
+.habit-card.s-on-time{border-color:rgba(96,165,250,0.35)!important;background:linear-gradient(135deg,var(--bg2),rgba(96,165,250,0.04))!important}
+.habit-card.s-delayed{border-color:rgba(251,191,36,0.35)!important;background:linear-gradient(135deg,var(--bg2),rgba(251,191,36,0.04))!important}
+.habit-card.s-completed{border-color:rgba(52,211,153,0.4)!important;background:linear-gradient(135deg,var(--bg2),rgba(52,211,153,0.06))!important}
+.habit-card.s-on-time::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#60a5fa;border-radius:var(--radius) 0 0 var(--radius)}
+.habit-card.s-delayed::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--warn);border-radius:var(--radius) 0 0 var(--radius)}
+.habit-card.s-completed::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--success);border-radius:var(--radius) 0 0 var(--radius)}
+
+/* top row */
+.habit-top{display:flex;align-items:center;gap:14px;padding:16px 20px 10px;cursor:pointer;user-select:none}
+.habit-check{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);font-size:14px}
+.habit-card.done .habit-check{background:var(--success);border-color:var(--success);transform:scale(1.1);box-shadow:0 0 12px rgba(52,211,153,0.4)}
+.habit-color-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.habit-info{flex:1;min-width:0}
+.habit-name{font-size:15px;font-weight:500;transition:color .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.habit-card.done .habit-name{color:var(--text2)}
+.habit-note{font-size:11px;color:var(--text3);margin-top:2px}
+.habit-streak{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);background:var(--bg3);padding:4px 10px;border-radius:99px;flex-shrink:0}
+.habit-actions{display:flex;gap:6px;opacity:0;transition:opacity .2s;flex-shrink:0}
+.habit-card:hover .habit-actions{opacity:1}
+.icon-btn{width:28px;height:28px;border-radius:8px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);transition:all .15s}
+.icon-btn:hover{background:var(--bg3);color:var(--text)}
+.icon-btn.del:hover{background:rgba(248,113,113,0.15);color:var(--danger)}
+
+/* ── BOTTOM ROW: time + duration + status ── */
+.habit-bottom{
+  display:flex;align-items:center;gap:8px;
+  padding:0 20px 14px;
+  flex-wrap:wrap;
+  border-top:1px solid var(--border);
+  margin-top:4px;
+  padding-top:10px;
+}
+
+/* time field */
+.time-field{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:5px 10px;flex-shrink:0;
+}
+.time-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
+.time-input{
+  background:transparent;border:none;color:var(--text);
+  font-size:12px;font-family:var(--font-body);width:84px;cursor:pointer;
+}
+[data-theme="dark"] .time-input::-webkit-calendar-picker-indicator{filter:invert(0.6);cursor:pointer}
+[data-theme="light"] .time-input::-webkit-calendar-picker-indicator{filter:none;cursor:pointer}
+
+/* duration pill */
+.dur-pill{
+  display:flex;align-items:center;gap:5px;
+  background:var(--bg4);border:1px solid var(--border);
+  border-radius:8px;padding:5px 10px;
+  font-size:12px;color:var(--text3);flex-shrink:0;
+  transition:all .25s;
+}
+.dur-pill.active{
+  background:rgba(124,106,247,0.1);border-color:rgba(124,106,247,0.25);
+  color:var(--accent2);font-weight:600;
+}
+
+/* status button */
+.status-wrap{margin-left:auto;position:relative;flex-shrink:0}
+.status-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 13px;border-radius:8px;
+  font-size:12px;font-weight:600;letter-spacing:0.2px;
+  border:1px solid var(--border2);
+  background:var(--bg4);color:var(--text3);
+  transition:all .2s;cursor:pointer;
+}
+.status-btn:hover{transform:translateY(-1px)}
+.status-btn.s-on-time{background:rgba(96,165,250,0.12);color:#60a5fa;border-color:rgba(96,165,250,0.3)}
+.status-btn.s-on-time:hover{background:rgba(96,165,250,0.22);box-shadow:0 2px 10px rgba(96,165,250,0.2)}
+.status-btn.s-delayed{background:rgba(251,191,36,0.12);color:#fbbf24;border-color:rgba(251,191,36,0.3)}
+.status-btn.s-delayed:hover{background:rgba(251,191,36,0.22);box-shadow:0 2px 10px rgba(251,191,36,0.2)}
+.status-btn.s-completed{background:rgba(52,211,153,0.12);color:#34d399;border-color:rgba(52,211,153,0.3)}
+.status-btn.s-completed:hover{background:rgba(52,211,153,0.22);box-shadow:0 2px 10px rgba(52,211,153,0.2)}
+
+/* dropdown menu */
+.status-menu{
+  position:absolute;bottom:calc(100% + 8px);right:0;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--radius-sm);padding:6px;
+  display:flex;flex-direction:column;gap:3px;
+  box-shadow:var(--shadow);z-index:200;min-width:148px;
+  animation:popMenu .2s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popMenu{from{opacity:0;transform:translateY(6px) scale(0.95)}to{opacity:1;transform:none}}
+.smenu-opt{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:7px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:background .15s;
+}
+.smenu-opt:hover{background:var(--bg4)}
+.smenu-opt.opt-on-time{color:#60a5fa}
+.smenu-opt.opt-delayed{color:#fbbf24}
+.smenu-opt.opt-completed{color:#34d399}
+.smenu-opt.opt-clear{color:var(--text3);font-weight:400}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:64px 24px;color:var(--text3)}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty-title{font-family:var(--font-head);font-size:20px;font-weight:600;color:var(--text2);margin-bottom:8px}
+.empty-desc{font-size:14px;line-height:1.7}
+
+/* WEEK VIEW */
+.week-grid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px}
+.week-header{display:grid;grid-template-columns:200px repeat(7,1fr);background:var(--bg3);border-bottom:1px solid var(--border)}
+.week-header-cell{padding:12px 8px;text-align:center;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase}
+.week-header-cell.today-col{color:var(--accent2)}
+.week-row{display:grid;grid-template-columns:200px repeat(7,1fr);border-bottom:1px solid var(--border)}
+.week-row:last-child{border-bottom:none}
+.week-habit-name{padding:14px 16px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;border-right:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.week-cell{display:flex;align-items:center;justify-content:center;padding:10px 4px;cursor:pointer;transition:background .15s}
+.week-cell:hover{background:var(--bg3)}
+.week-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.week-dot.done{background:var(--success);border-color:var(--success);box-shadow:0 0 8px rgba(52,211,153,0.3)}
+.week-dot.future{opacity:0.3;pointer-events:none}
+.week-dot.today-ring{border-color:var(--accent)!important}
+
+/* CALENDAR */
+.month-section{margin-bottom:32px}
+.section-head{font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:16px;letter-spacing:-0.3px;display:flex;align-items:center;gap:12px}
+.section-head .nav-arrows{display:flex;gap:6px;margin-left:auto}
+.cal-grid{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:8px}
+.cal-wd{text-align:center;font-size:11px;color:var(--text3);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;padding:4px}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s}
+.cal-day:hover:not(.empty):not(.future){background:var(--bg4)}
+.cal-day.today{background:var(--accent)!important;color:#fff!important;font-weight:700}
+.cal-day.future{color:var(--text3);cursor:default}
+.cal-day.empty{cursor:default}
+.habit-heatmap-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.heatmap-label{font-size:12px;color:var(--text2);width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.heatmap-cells{display:flex;gap:3px;flex-wrap:wrap;flex:1}
+.hmap-cell{width:18px;height:18px;border-radius:4px;background:var(--bg4);transition:background .2s;cursor:pointer;position:relative}
+.hmap-cell:hover::after{content:attr(data-tip);position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:var(--bg);color:var(--text);font-size:10px;padding:3px 7px;border-radius:5px;white-space:nowrap;border:1px solid var(--border2);pointer-events:none;z-index:10}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.stat-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
+.stat-value{font-family:var(--font-head);font-size:32px;font-weight:800;line-height:1;letter-spacing:-1px}
+.stat-sub{font-size:12px;color:var(--text2);margin-top:6px}
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:12px}
+.bar-name{font-size:12px;color:var(--text2);width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:8px;background:var(--bg4);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.bar-pct{font-size:12px;color:var(--text2);width:36px;text-align:right;flex-shrink:0}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;overflow-y:auto}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:28px;width:100%;max-width:480px;transform:translateY(12px);transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow)}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-title{font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:20px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;display:block}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);font-size:14px;transition:border-color .2s}
+.form-input:focus{border-color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.color-picker-row{display:flex;gap:8px;flex-wrap:wrap}
+.color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.color-swatch.active{border-color:#fff;transform:scale(1.2)}
+.modal-actions{display:flex;gap:10px;margin-top:24px;justify-content:flex-end}
+.modal-divider{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+/* CONFIRM */
+.confirm-modal{max-width:360px}
+.confirm-msg{font-size:14px;color:var(--text2);margin-bottom:20px;line-height:1.7}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:2000}
+.toast{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 18px;font-size:13px;color:var(--text);box-shadow:var(--shadow);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);max-width:300px}
+.toast.success{border-color:rgba(52,211,153,0.3)}
+.toast.error{border-color:rgba(248,113,113,0.3)}
+@keyframes slideUp{from{transform:translateY(12px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeOut{to{opacity:0;transform:translateY(-8px)}}
+.toast.leaving{animation:fadeOut .2s ease forwards}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.habit-check.pop{animation:popIn .35s cubic-bezier(.34,1.56,.64,1)}
+
+/* MOBILE */
+.hamburger{display:none;position:fixed;top:16px;left:16px;z-index:200;width:40px;height:40px;border-radius:10px;background:var(--bg2);border:1px solid var(--border2);align-items:center;justify-content:center;font-size:18px;color:var(--text);box-shadow:var(--shadow-sm)}
+.sidebar-overlay{display:none;position:fixed;inset:0;z-index:90;background:rgba(0,0,0,0.5)}
+.fire{color:#f97316}
+.best-tag{font-size:10px;background:rgba(251,191,36,0.15);color:var(--warn);padding:2px 6px;border-radius:4px;border:1px solid rgba(251,191,36,0.2)}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);z-index:150}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:70px 16px 24px}
+  .hamburger{display:flex}
+  .sidebar-overlay.open{display:block}
+  .week-header,.week-row{grid-template-columns:100px repeat(7,1fr)}
+  .week-habit-name{padding:8px;font-size:11px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+  .date-hero{flex-direction:column;align-items:flex-start;gap:12px}
+  .date-day{font-size:40px}
+  .form-row{grid-template-columns:1fr}
+  .habit-bottom{gap:6px}
+}
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="sidebar" id="sidebar">
+  <div class="logo">
+    <div class="logo-mark">Momentum</div>
+    <div class="logo-sub">Habit Tracker</div>
+  </div>
+  <nav id="nav">
+    <div class="nav-item active" data-page="today"><span class="nav-icon">🌅</span><span class="nav-label">Today</span></div>
+    <div class="nav-item" data-page="week"><span class="nav-icon">📆</span><span class="nav-label">Week View</span></div>
+    <div class="nav-item" data-page="calendar"><span class="nav-icon">🗓️</span><span class="nav-label">Calendar</span></div>
+    <div class="nav-item" data-page="stats"><span class="nav-icon">📊</span><span class="nav-label">Statistics</span></div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="theme-toggle">
+      <span>Light Mode</span>
+      <div class="toggle-pill" id="themeToggle"><div class="toggle-knob"></div></div>
+    </div>
+  </div>
+</div>
+
+<main class="main" id="mainContent"></main>
+
+<!-- HABIT MODAL -->
+<div class="modal-overlay" id="habitModal">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">New Habit</div>
+    <div class="form-group">
+      <label class="form-label">Name</label>
+      <input class="form-input" id="habitNameInput" placeholder="e.g., Morning Run" maxlength="40">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Emoji</label>
+        <input class="form-input" id="habitEmojiInput" placeholder="🏃" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target</label>
+        <input class="form-input" id="habitTargetInput" placeholder="3x per week">
+      </div>
+    </div>
+    <hr class="modal-divider">
+    <div style="font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--text2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.8px">⏱ Time Schedule</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Start Time</label>
+        <input type="time" class="form-input" id="habitStartTime">
+      </div>
+      <div class="form-group">
+        <label class="form-label">End Time</label>
+        <input type="time" class="form-input" id="habitEndTime">
+      </div>
+    </div>
+    <div id="durationPreview" style="font-size:12px;color:var(--accent2);margin-top:-8px;margin-bottom:14px;min-height:16px"></div>
+    <div class="form-group">
+      <label class="form-label">Note / Reminder</label>
+      <textarea class="form-input" id="habitNoteInput" rows="2" placeholder="e.g., Right after coffee"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Color</label>
+      <div class="color-picker-row" id="colorPicker"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelHabitBtn">Cancel</button>
+      <button class="btn btn-primary" id="saveHabitBtn">Save Habit</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal confirm-modal">
+    <div class="modal-title" id="confirmTitle">Are you sure?</div>
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger" id="confirmOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   MOMENTUM v3  —  Time Tracking + Status  
+   ═══════════════════════════════════════════════════════════ */
+
+const COLORS=['#7c6af7','#a78bfa','#34d399','#60a5fa','#f472b6','#fb923c','#facc15','#38bdf8','#f87171','#4ade80'];
+const QUOTES=[
+  "We are what we repeatedly do. Excellence is not an act, but a habit. — Aristotle",
+  "Motivation gets you going, but discipline keeps you growing.",
+  "Small daily improvements lead to staggering long-term results.",
+  "The secret of your success is found in your daily routine.",
+  "You don't have to be great to start, but you have to start to be great.",
+  "Champions aren't made in gyms. Champions are made from something inside.",
+  "Success is the sum of small efforts, repeated day in and day out.",
+  "Habits are the compound interest of self-improvement.",
+  "Every action you take is a vote for the type of person you wish to become.",
+  "The only bad workout is the one that didn't happen.",
+];
+
+// ── STATUS CONFIG ──────────────────────────────────────────
+const SC = {
+  'on-time':   { label:'On Time',   icon:'🔵', cls:'s-on-time' },
+  'delayed':   { label:'Delayed',   icon:'🟡', cls:'s-delayed' },
+};
+
+// ── STATE ──────────────────────────────────────────────────
+// habit: { id, name, emoji, color, target, note, startTime, endTime, createdAt }
+// taskStatus: { 'YYYY-MM-DD:habitId': 'on-time'|'delayed'|'completed' }
+let state={ habits:[], completions:{}, taskStatus:{}, theme:'dark', calendarMonth:null };
+let editingHabitId=null, confirmCallback=null, currentPage='today', openMenuId=null;
+
+// ── STORAGE ────────────────────────────────────────────────
+const SKEY='momentum_v3';
+function save(){ localStorage.setItem(SKEY,JSON.stringify(state)); }
+function load(){
+  const raw=localStorage.getItem(SKEY)||(localStorage.getItem('momentum_v2'));
+  if(raw){ try{ const s=JSON.parse(raw); state={...state,...s}; if(!state.taskStatus) state.taskStatus={}; }catch(e){} }
+  const now=new Date(); state.calendarMonth={year:now.getFullYear(),month:now.getMonth()};
+  applyTheme(state.theme);
+}
+
+// ── DATE HELPERS ───────────────────────────────────────────
+function fmtDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function today(){ return fmtDate(new Date()); }
+function parseDate(s){ const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function uid(){ return Math.random().toString(36).slice(2,10); }
+function isToday(s){ return s===today(); }
+function isFuture(s){ return parseDate(s)>new Date(today()); }
+function getDayName(s,short=true){ return parseDate(s).toLocaleDateString('en-US',{weekday:short?'short':'long'}); }
+function getMonthName(m,short=true){ return new Date(2000,m,1).toLocaleDateString('en-US',{month:short?'short':'long'}); }
+function getDailyQuote(){ return QUOTES[new Date().getDate()%QUOTES.length]; }
+function sKey(hid,dk){ return `${dk}:${hid}`; }
+
+// ── DURATION ───────────────────────────────────────────────
+function calcDuration(s,e){
+  if(!s||!e) return null;
+  const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number);
+  let m=(eh*60+em)-(sh*60+sm); if(m<=0) m+=1440;
+  const h=Math.floor(m/60),rm=m%60;
+  return h===0?`${rm}m`:rm===0?`${h}h`:`${h}h ${rm}m`;
+}
+function fmtTime(t){
+  if(!t) return '—';
+  const[h,m]=t.split(':').map(Number);
+  return `${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+
+// ── STREAKS ────────────────────────────────────────────────
+function getStreak(hid){
+  let n=0; const d=new Date();
+  if(!(state.completions[fmtDate(d)]||[]).includes(hid)) d.setDate(d.getDate()-1);
+  while(true){ const k=fmtDate(d); if((state.completions[k]||[]).includes(hid)){n++;d.setDate(d.getDate()-1);}else break; }
+  return n;
+}
+function getLongestStreak(hid){
+  const keys=Object.keys(state.completions).sort(); let best=0,cur=0,prev=null;
+  for(const k of keys){
+    if(!(state.completions[k]||[]).includes(hid)){cur=0;prev=null;continue;}
+    if(!prev) cur=1; else{ const df=(parseDate(k)-parseDate(prev))/86400000; cur=df===1?cur+1:1; }
+    best=Math.max(best,cur); prev=k;
+  }
+  return best;
+}
+function weekRate(hid){
+  let done=0,tot=0; const d=new Date();
+  for(let i=6;i>=0;i--){ const dd=new Date(d); dd.setDate(d.getDate()-i); const k=fmtDate(dd); if(!isFuture(k)){tot++;if((state.completions[k]||[]).includes(hid)) done++;} }
+  return tot?Math.round((done/tot)*100):0;
+}
+function monthRate(hid){
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth(),dim=new Date(y,m+1,0).getDate(); let done=0,tot=0;
+  for(let d=1;d<=dim;d++){ const k=fmtDate(new Date(y,m,d)); if(!isFuture(k)){tot++;if((state.completions[k]||[]).includes(hid)) done++;} }
+  return tot?Math.round((done/tot)*100):0;
+}
+function totalDone(hid){ let n=0; for(const k of Object.keys(state.completions)) if((state.completions[k]||[]).includes(hid)) n++; return n; }
+
+// ── THEME ──────────────────────────────────────────────────
+function applyTheme(t){
+  state.theme=t; document.documentElement.setAttribute('data-theme',t);
+  const p=document.getElementById('themeToggle'); if(p) p.classList.toggle('on',t==='light');
+}
+
+// ── ACTIONS ────────────────────────────────────────────────
+function toggleHabit(hid,dk){ if(!state.completions[dk]) state.completions[dk]=[]; const i=state.completions[dk].indexOf(hid); if(i===-1) state.completions[dk].push(hid); else state.completions[dk].splice(i,1); save(); renderPage(); }
+
+function setStatus(hid,dk,status){
+  const k=sKey(hid,dk);
+  if(status===null) delete state.taskStatus[k]; else state.taskStatus[k]=status;
+  openMenuId=null; save(); renderPage();
+}
+function getStatus(hid,dk){ return state.taskStatus[sKey(hid,dk)]||null; }
+
+function toggleMenu(hid,dk){
+  const k=sKey(hid,dk); openMenuId=(openMenuId===k)?null:k; renderPage();
+}
+
+// Update time without full re-render (called onchange on card time inputs)
+function updateHabitTime(hid,field,val){
+  const h=state.habits.find(x=>x.id===hid); if(!h) return;
+  h[field]=val; save();
+  const dur=calcDuration(h.startTime,h.endTime);
+  const el=document.getElementById('dur-'+hid);
+  if(el){ el.className='dur-pill'+(dur?' active':''); el.innerHTML=dur?`⏳ <strong>${dur}</strong>`:`<span style="color:var(--text3)">⏳ —</span>`; }
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════
+function renderPage(){ if(currentPage==='today') renderToday(); else if(currentPage==='week') renderWeek(); else if(currentPage==='calendar') renderCalendar(); else if(currentPage==='stats') renderStats(); highlightNav(); }
+function highlightNav(){ document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.page===currentPage)); }
+
+// ── STATUS BUTTON HTML ─────────────────────────────────────
+function statusHtml(hid,dk){
+  const s=getStatus(hid,dk), cfg=s?SC[s]:null;
+  const btnCls=cfg?`status-btn ${cfg.cls}`:'status-btn';
+  const btnLabel=cfg?`${cfg.icon} ${cfg.label} ▾`:'◎ Status ▾';
+  const isOpen=openMenuId===sKey(hid,dk);
+
+  const menu=isOpen?`
+    <div class="status-menu" onclick="event.stopPropagation()">
+      <div class="smenu-opt opt-on-time"  onclick="setStatus('${hid}','${dk}','on-time')">🔵 On Time</div>
+      <div class="smenu-opt opt-delayed"  onclick="setStatus('${hid}','${dk}','delayed')">🟡 Delayed</div>
+      ${s?`<div class="smenu-opt opt-clear" onclick="setStatus('${hid}','${dk}',null)">✕ Clear status</div>`:''}
+    </div>`:'';
+
+  return `<div class="status-wrap" onclick="event.stopPropagation()">
+    <button class="${btnCls}" onclick="toggleMenu('${hid}','${dk}')">${btnLabel}</button>
+    ${menu}
+  </div>`;
+}
+
+// ── TODAY PAGE ─────────────────────────────────────────────
+function renderToday(){
+  const now=new Date(), dk=today();
+  const doneArr=state.completions[dk]||[];
+  const allDone=state.habits.length>0&&doneArr.length===state.habits.length;
+
+  let habitsHtml='';
+  if(!state.habits.length){
+    habitsHtml=`<div class="empty-state"><div class="empty-icon">🌱</div><div class="empty-title">No habits yet</div><div class="empty-desc">Add your first habit to start building your streak.</div></div>`;
+  } else {
+    habitsHtml=`<div class="habits-grid">`+state.habits.map(h=>{
+      const done=doneArr.includes(h.id);
+      const streak=getStreak(h.id), longest=getLongestStreak(h.id);
+      const status=getStatus(h.id,dk);
+      const dur=calcDuration(h.startTime,h.endTime);
+      let cardCls=`habit-card${done?' done':''}${status?' '+SC[status].cls:''}`;
+
+      return `<div class="${cardCls}" id="card-${h.id}">
+
+        <!-- TOP: checkbox · color · name · streak · edit/del -->
+        <div class="habit-top" data-id="${h.id}" data-date="${dk}" onclick="handleHabitClick(this)">
+          <div class="habit-check${done?' pop':''}" style="${done?'':'border-color:'+h.color+'40'}">${done?'✓':''}</div>
+          <div class="habit-color-dot" style="background:${h.color}"></div>
+          <div class="habit-info">
+            <div class="habit-name">${h.emoji||''} ${h.name}</div>
+            <div class="habit-note">${h.target?h.target+' &nbsp;·&nbsp; ':''}${h.note?'💬 '+h.note:''}</div>
+          </div>
+          <div class="habit-streak"><span class="fire">🔥</span> ${streak}${longest>streak?` <span class="best-tag">best ${longest}</span>`:''}</div>
+          <div class="habit-actions" onclick="event.stopPropagation()">
+            <button class="icon-btn" title="Edit" onclick="openEditHabit('${h.id}')">✏️</button>
+            <button class="icon-btn del" title="Delete" onclick="deleteHabitConfirm('${h.id}')">🗑️</button>
+          </div>
+        </div>
+
+        <!-- BOTTOM: start · end · duration · status -->
+        <div class="habit-bottom">
+
+          <div class="time-field" onclick="event.stopPropagation()" title="Start Time">
+            <span class="time-lbl">Start</span>
+            <input type="time" class="time-input"
+              value="${h.startTime||''}"
+              onchange="updateHabitTime('${h.id}','startTime',this.value)"
+              onclick="event.stopPropagation()">
+          </div>
+
+          <div class="time-field" onclick="event.stopPropagation()" title="End Time">
+            <span class="time-lbl">End</span>
+            <input type="time" class="time-input"
+              value="${h.endTime||''}"
+              onchange="updateHabitTime('${h.id}','endTime',this.value)"
+              onclick="event.stopPropagation()">
+          </div>
+
+          <div class="dur-pill${dur?' active':''}" id="dur-${h.id}">
+            ${dur?`⏳ <strong>${dur}</strong>`:`<span style="color:var(--text3)">⏳ —</span>`}
+          </div>
+
+          ${statusHtml(h.id,dk)}
+        </div>
+
+      </div>`;
+    }).join('')+`</div>`;
+  }
+
+  document.getElementById('mainContent').innerHTML=`
+    <div class="topbar">
+      <div><div class="page-title">Today</div><div class="page-sub">${now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</div></div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="exportData()">⬇ Export</button>
+        <button class="btn btn-danger btn-sm" onclick="clearDataConfirm()">🗑 Clear</button>
+        <button class="btn btn-primary" onclick="openAddHabit()">+ New Habit</button>
+      </div>
+    </div>
+    <div class="date-hero">
+      <div>
+        <div class="date-day">${now.getDate()}</div>
+        <div class="date-meta">${now.toLocaleDateString('en-US',{weekday:'long',month:'long',year:'numeric'})}</div>
+      </div>
+      <div class="date-streak-pill">${allDone?'🎉 All done!':`${doneArr.length} / ${state.habits.length} habits`}</div>
+    </div>
+    <div class="quote-band"><span>💡</span><span>${getDailyQuote()}</span></div>
+    ${habitsHtml}`;
+
+  // global click to close any open dropdown
+  setTimeout(()=>document.addEventListener('click',closeMenusGlobal,{once:true}),0);
+}
+
+function closeMenusGlobal(){ if(openMenuId){openMenuId=null;renderPage();} }
+function handleHabitClick(el){ const{id,date}=el.dataset; if(isFuture(date)) return; toggleHabit(id,date); }
+
+// ── WEEK PAGE ──────────────────────────────────────────────
+function renderWeek(){
+  const now=new Date(),days=[];
+  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);days.push(fmtDate(d));}
+  const hdr=days.map(dk=>{const d=parseDate(dk),isT=isToday(dk);return`<div class="week-header-cell ${isT?'today-col':''}">${getDayName(dk)}<br><small>${d.getDate()}</small></div>`;}).join('');
+  const rows=!state.habits.length
+    ?`<div style="padding:32px;text-align:center;color:var(--text3)">No habits to display</div>`
+    :state.habits.map(h=>{
+        const cells=days.map(dk=>{
+          const done=(state.completions[dk]||[]).includes(h.id),fut=isFuture(dk),isT=isToday(dk);
+          return`<div class="week-cell"${!fut?` onclick="toggleHabit('${h.id}','${dk}')"`:''}>
+            <div class="week-dot${done?' done':''}${fut?' future':''}${isT&&!done?' today-ring':''}"
+              style="${done?'background:'+h.color+';border-color:'+h.color:''}">${done?'✓':''}</div>
+          </div>`;
+        }).join('');
+        return`<div class="week-row">
+          <div class="week-habit-name"><div class="habit-color-dot" style="background:${h.color}"></div>${h.emoji||''} ${h.name}</div>
+          ${cells}
+        </div>`;
+      }).join('');
+
+  document.getElementById('mainContent').innerHTML=`
+    <div class="topbar">
+      <div><div class="page-title">Week View</div><div class="page-sub">Last 7 days</div></div>
+      <div class="topbar-actions"><button class="btn btn-primary" onclick="openAddHabit()">+ New Habit</button></div>
+    </div>
+    <div class="week-grid">
+      <div class="week-header"><div class="week-header-cell" style="text-align:left;padding-left:16px">Habit</div>${hdr}</div>
+      ${rows}
+    </div>`;
+}
+
+// ── CALENDAR PAGE ──────────────────────────────────────────
+function renderCalendar(){
+  const{year,month}=state.calendarMonth;
+  const fd=new Date(year,month,1).getDay(),dim=new Date(year,month+1,0).getDate();
+  let cells='';
+  for(let i=0;i<fd;i++) cells+=`<div class="cal-day empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const dk=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const fut=isFuture(dk),isT=isToday(dk);
+    const dc=state.habits.filter(h=>(state.completions[dk]||[]).includes(h.id)).length,tot=state.habits.length;
+    let bg=''; if(!fut&&tot>0&&dc>0){const a=0.2+(dc/tot)*0.6;bg=`style="background:rgba(124,106,247,${a.toFixed(2)});color:${dc/tot>0.5?'#fff':'var(--text)'}"`;}
+    cells+=`<div class="cal-day${isT?' today':''}${fut?' future':''}" ${bg} title="${d} ${getMonthName(month)} — ${dc}/${tot}">${d}</div>`;
+  }
+  let heatmap='';
+  if(state.habits.length){
+    heatmap=`<div style="margin-top:24px"><div class="section-head" style="font-size:15px">Habit Heatmap</div>
+    ${state.habits.map(h=>{
+      let hc='';
+      for(let i=0;i<fd;i++) hc+=`<div class="hmap-cell" style="background:transparent"></div>`;
+      for(let d=1;d<=dim;d++){
+        const dk=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const done=(state.completions[dk]||[]).includes(h.id),fut=isFuture(dk);
+        hc+=`<div class="hmap-cell" style="background:${done?h.color:fut?'transparent':'var(--bg4)'};opacity:${fut?0.2:1}" data-tip="${d} ${getMonthName(month)}: ${done?'Done':'—'}"${!fut?` onclick="toggleHabit('${h.id}','${dk}')"`:''}></div>`;
+      }
+      return`<div class="habit-heatmap-row"><div class="heatmap-label">${h.emoji||''} ${h.name}</div><div class="heatmap-cells">${hc}</div></div>`;
+    }).join('')}</div>`;
+  }
+  const wds=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  document.getElementById('mainContent').innerHTML=`
+    <div class="topbar"><div><div class="page-title">Calendar</div><div class="page-sub">${getMonthName(month,false)} ${year}</div></div></div>
+    <div class="month-section">
+      <div class="section-head">${getMonthName(month,false)} ${year}<div class="nav-arrows">
+        <button class="btn btn-ghost btn-sm" onclick="changeMonth(-1)">‹</button>
+        <button class="btn btn-ghost btn-sm" onclick="changeMonth(1)">›</button>
+      </div></div>
+      <div class="cal-grid">
+        <div class="cal-weekdays">${wds.map(w=>`<div class="cal-wd">${w}</div>`).join('')}</div>
+        <div class="cal-days">${cells}</div>
+      </div>
+    </div>${heatmap}`;
+}
+function changeMonth(d){let{year,month}=state.calendarMonth;month+=d;if(month<0){month=11;year--;}if(month>11){month=0;year++;}state.calendarMonth={year,month};renderCalendar();}
+
+// ── STATS PAGE ─────────────────────────────────────────────
+function renderStats(){
+  const dk=today(),done=(state.completions[dk]||[]).length,tot=state.habits.length;
+  const now=new Date();let wDone=0,wTot=0;
+  for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);const k=fmtDate(d);if(!isFuture(k)){wTot+=tot;wDone+=(state.completions[k]||[]).length;}}
+  const wPct=wTot?Math.round((wDone/wTot)*100):0;
+  const ss={'on-time':0,'delayed':0,};
+  for(const v of Object.values(state.taskStatus)) ss[v]=(ss[v]||0)+1;
+
+  const barRows=state.habits.map(h=>`
+    <div class="bar-row">
+      <div class="bar-name">${h.emoji||''} ${h.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${monthRate(h.id)}%;background:${h.color}"></div></div>
+      <div class="bar-pct">${monthRate(h.id)}%</div>
+    </div>`).join('');
+
+  const trows=state.habits.map(h=>{
+    const cur=getStreak(h.id),best=getLongestStreak(h.id),d=totalDone(h.id);
+    const dur=calcDuration(h.startTime,h.endTime);
+    return`<tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:12px 16px;font-size:14px">${h.emoji||''} ${h.name}</td>
+      <td style="padding:12px 16px;text-align:center;font-family:var(--font-head);font-weight:700;color:var(--accent2)">${cur} 🔥</td>
+      <td style="padding:12px 16px;text-align:center;font-family:var(--font-head);font-weight:700;color:var(--warn)">${best}</td>
+      <td style="padding:12px 16px;text-align:center;color:var(--text2)">${d}</td>
+      <td style="padding:12px 16px;text-align:center;font-size:12px;color:var(--text2)">
+        ${fmtTime(h.startTime)} → ${fmtTime(h.endTime)}
+        ${dur?`<br><span style="color:var(--accent2);font-weight:600">⏳ ${dur}</span>`:''}
+      </td>
+      <td style="padding:12px 16px;text-align:center">
+        <div style="width:100%;height:6px;background:var(--bg4);border-radius:99px;overflow:hidden">
+          <div style="width:${weekRate(h.id)}%;height:100%;background:${h.color};border-radius:99px"></div>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">${weekRate(h.id)}% this week</div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('mainContent').innerHTML=`
+    <div class="topbar"><div><div class="page-title">Statistics</div><div class="page-sub">Your progress overview</div></div></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Today</div><div class="stat-value" style="color:var(--accent2)">${done}/${tot}</div><div class="stat-sub">habits completed</div></div>
+      <div class="stat-card"><div class="stat-label">This Week</div><div class="stat-value" style="color:var(--success)">${wPct}%</div><div class="stat-sub">${wDone} of ${wTot} entries</div></div>
+      <div class="stat-card"><div class="stat-label">Total Habits</div><div class="stat-value" style="color:var(--warn)">${tot}</div><div class="stat-sub">being tracked</div></div>
+      <div class="stat-card">
+        <div class="stat-label">Status Summary</div>
+        <div style="display:flex;gap:14px;margin-top:10px;flex-wrap:wrap">
+          <div><div style="font-family:var(--font-head);font-size:26px;font-weight:800;color:#60a5fa">${ss['on-time']}</div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px">On Time</div></div>
+          <div><div style="font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--warn)">${ss['delayed']}</div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px">Delayed</div></div>
+          <div><div style="font-family:var(--font-head);font-size:26px;font-weight:800;color:var(--success)">${ss['completed']}</div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px">Completed</div></div>
+        </div>
+      </div>
+    </div>
+    ${tot?`
+    <div class="month-section">
+      <div class="section-head">Monthly Completion Rate</div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px">
+        <div class="bar-chart">${barRows}</div>
+      </div>
+    </div>
+    <div class="month-section">
+      <div class="section-head">Streaks · Time · Progress</div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;min-width:600px">
+          <thead><tr style="background:var(--bg3);border-bottom:1px solid var(--border)">
+            <th style="padding:10px 16px;font-size:11px;text-align:left;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Habit</th>
+            <th style="padding:10px 16px;font-size:11px;text-align:center;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Streak</th>
+            <th style="padding:10px 16px;font-size:11px;text-align:center;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Best</th>
+            <th style="padding:10px 16px;font-size:11px;text-align:center;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Total</th>
+            <th style="padding:10px 16px;font-size:11px;text-align:center;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Start → End · Duration</th>
+            <th style="padding:10px 16px;font-size:11px;text-align:center;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.8px">Weekly Rate</th>
+          </tr></thead>
+          <tbody>${trows||'<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--text3)">No data yet</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>`
+    :`<div class="empty-state"><div class="empty-icon">📊</div><div class="empty-title">No habits yet</div><div class="empty-desc">Start tracking habits to see statistics here.</div></div>`}`;
+}
+
+// ══════════════════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════════════════
+let selectedColor=COLORS[0];
+function renderColorPicker(cur){
+  selectedColor=cur||COLORS[0];
+  document.getElementById('colorPicker').innerHTML=COLORS.map(c=>
+    `<div class="color-swatch${c===selectedColor?' active':''}" style="background:${c}" onclick="selectColor('${c}')"></div>`
+  ).join('');
+}
+function selectColor(c){ selectedColor=c; document.querySelectorAll('.color-swatch').forEach(s=>s.classList.toggle('active',s.style.background===c||s.style.backgroundColor===c)); }
+function updateDurationPreview(){
+  const s=document.getElementById('habitStartTime').value, e=document.getElementById('habitEndTime').value;
+  const d=calcDuration(s,e);
+  document.getElementById('durationPreview').textContent=d?`⏳ Duration: ${d}`:'';
+}
+function openAddHabit(){
+  editingHabitId=null;
+  document.getElementById('modalTitle').textContent='New Habit';
+  ['habitNameInput','habitEmojiInput','habitTargetInput','habitNoteInput'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('habitStartTime').value='';
+  document.getElementById('habitEndTime').value='';
+  document.getElementById('durationPreview').textContent='';
+  renderColorPicker(COLORS[state.habits.length%COLORS.length]);
+  openModal('habitModal');
+}
+function openEditHabit(id){
+  const h=state.habits.find(x=>x.id===id); if(!h) return;
+  editingHabitId=id;
+  document.getElementById('modalTitle').textContent='Edit Habit';
+  document.getElementById('habitNameInput').value=h.name;
+  document.getElementById('habitEmojiInput').value=h.emoji||'';
+  document.getElementById('habitTargetInput').value=h.target||'';
+  document.getElementById('habitStartTime').value=h.startTime||'';
+  document.getElementById('habitEndTime').value=h.endTime||'';
+  document.getElementById('habitNoteInput').value=h.note||'';
+  updateDurationPreview();
+  renderColorPicker(h.color);
+  openModal('habitModal');
+}
+function saveHabit(){
+  const name=document.getElementById('habitNameInput').value.trim();
+  if(!name){showToast('Please enter a habit name','error');return;}
+  const fields={
+    emoji:document.getElementById('habitEmojiInput').value.trim(),
+    target:document.getElementById('habitTargetInput').value.trim(),
+    note:document.getElementById('habitNoteInput').value.trim(),
+    startTime:document.getElementById('habitStartTime').value,
+    endTime:document.getElementById('habitEndTime').value,
+  };
+  if(editingHabitId){
+    const h=state.habits.find(x=>x.id===editingHabitId);
+    if(h) Object.assign(h,{name,color:selectedColor,...fields});
+    showToast('Habit updated ✓','success');
+  } else {
+    if(state.habits.length>=30){showToast('Max 10 habits recommended','error');return;}
+    state.habits.push({id:uid(),name,color:selectedColor,...fields,createdAt:today()});
+    showToast('Habit added 🎉','success');
+  }
+  save(); closeModal('habitModal'); renderPage();
+}
+function deleteHabitConfirm(id){
+  const h=state.habits.find(x=>x.id===id); if(!h) return;
+  openConfirm(`Delete "${h.name}"?`,'This will permanently delete this habit and all its data.',()=>{
+    state.habits=state.habits.filter(x=>x.id!==id);
+    for(const k of Object.keys(state.completions)) state.completions[k]=state.completions[k].filter(x=>x!==id);
+    for(const k of Object.keys(state.taskStatus)) if(k.includes(id)) delete state.taskStatus[k];
+    save(); showToast('Habit deleted','success'); renderPage();
+  });
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openConfirm(title,msg,cb){document.getElementById('confirmTitle').textContent=title;document.getElementById('confirmMsg').textContent=msg;confirmCallback=cb;openModal('confirmModal');}
+function exportData(){
+  const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`momentum-export-${today()}.json`;a.click();
+  showToast('Exported ✓','success');
+}
+function clearDataConfirm(){
+  openConfirm('Clear all data?','This will permanently delete ALL habits, completions and status history.',()=>{
+    state.habits=[];state.completions={};state.taskStatus={};
+    save();showToast('All data cleared','success');renderPage();
+  });
+}
+function showToast(msg,type=''){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);
+  setTimeout(()=>{t.classList.add('leaving');setTimeout(()=>t.remove(),250);},2500);
+}
+
+// ══════════════════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  load(); renderPage();
+
+  document.getElementById('nav').addEventListener('click',e=>{
+    const item=e.target.closest('.nav-item');if(!item)return;
+    currentPage=item.dataset.page;renderPage();
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  });
+
+  document.getElementById('themeToggle').addEventListener('click',()=>{applyTheme(state.theme==='dark'?'light':'dark');save();});
+
+  document.getElementById('saveHabitBtn').addEventListener('click',saveHabit);
+  document.getElementById('cancelHabitBtn').addEventListener('click',()=>closeModal('habitModal'));
+  document.getElementById('habitModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal('habitModal');});
+
+  document.getElementById('habitStartTime').addEventListener('change',updateDurationPreview);
+  document.getElementById('habitEndTime').addEventListener('change',updateDurationPreview);
+
+  document.getElementById('confirmOk').addEventListener('click',()=>{if(confirmCallback)confirmCallback();confirmCallback=null;closeModal('confirmModal');});
+  document.getElementById('confirmCancel').addEventListener('click',()=>{confirmCallback=null;closeModal('confirmModal');});
+  document.getElementById('confirmModal').addEventListener('click',e=>{if(e.target===e.currentTarget){confirmCallback=null;closeModal('confirmModal');}});
+
+  document.getElementById('habitNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveHabit();});
+
+  document.getElementById('hamburger').addEventListener('click',()=>{
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  });
+  document.getElementById('sidebarOverlay').addEventListener('click',()=>{
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>

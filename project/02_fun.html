@@ -1,0 +1,4696 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+<title>ARISE — Real Life Leveling System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+
+   ARISE — COMPLETE STYLE SYSTEM
+
+   Solo Leveling Inspired · Dark Futuristic · Premium
+
+   ============================================================ */
+
+
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+
+
+:root {
+
+  --bg:       #04060e;
+
+  --bg2:      #070b16;
+
+  --bg3:      #0a1020;
+
+  --panel:    #0d1525;
+
+  --panel2:   #101c30;
+
+  --panel3:   #131f35;
+
+  --border:   #162540;
+
+  --border2:  #1d3060;
+
+  --border3:  #254078;
+
+
+
+  --blue:     #2d7ff9;
+
+  --blue2:    #4d95ff;
+
+  --blue3:    #6aabff;
+
+  --cyan:     #00e5ff;
+
+  --cyan2:    #00c8e0;
+
+  --teal:     #00b8a0;
+
+  --gold:     #ffc400;
+
+  --gold2:    #ffdb6b;
+
+  --amber:    #ff9800;
+
+  --red:      #ff3b3b;
+
+  --red2:     #ff6b6b;
+
+  --green:    #00e676;
+
+  --green2:   #00c853;
+
+  --purple:   #b040ff;
+
+  --purple2:  #cc70ff;
+
+  --pink:     #ff4081;
+
+
+
+  --text:     #dce8ff;
+
+  --text2:    #7090c0;
+
+  --text3:    #3d5880;
+
+  --text4:    #243a5c;
+
+
+
+  --r:        8px;
+
+  --r2:       12px;
+
+  --r3:       16px;
+
+
+
+  --glow-blue:   0 0 20px rgba(45,127,249,.4);
+
+  --glow-cyan:   0 0 20px rgba(0,229,255,.4);
+
+  --glow-gold:   0 0 20px rgba(255,196,0,.4);
+
+  --glow-red:    0 0 20px rgba(255,59,59,.4);
+
+  --glow-purple: 0 0 20px rgba(176,64,255,.4);
+
+}
+
+
+
+html { font-size: 14px; }
+
+body {
+
+  background: var(--bg);
+
+  color: var(--text);
+
+  font-family: 'Exo 2', sans-serif;
+
+  font-weight: 400;
+
+  line-height: 1.5;
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+
+}
+
+
+
+/* Scanlines */
+
+body::before {
+
+  content: '';
+
+  position: fixed; inset: 0;
+
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.04) 3px, rgba(0,0,0,.04) 4px);
+
+  pointer-events: none; z-index: 9999;
+
+}
+
+
+
+/* ===================== SCROLLBAR ===================== */
+
+::-webkit-scrollbar { width: 4px; }
+
+::-webkit-scrollbar-track { background: var(--bg2); }
+
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+
+
+/* ===================== TYPOGRAPHY ===================== */
+
+.rj { font-family: 'Rajdhani', sans-serif; }
+
+.mono { font-family: 'Courier New', monospace; }
+
+
+
+/* ===================== LAYOUT ===================== */
+
+.app { display: flex; flex-direction: column; min-height: 100vh; max-width: 480px; margin: 0 auto; position: relative; }
+
+
+
+/* ===================== LOADING SCREEN ===================== */
+
+#loading {
+
+  position: fixed; inset: 0; background: var(--bg);
+
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+  z-index: 10000; gap: 24px;
+
+}
+
+.loading-logo {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 42px; font-weight: 700;
+
+  letter-spacing: 8px;
+
+  color: var(--blue2);
+
+  text-transform: uppercase;
+
+  animation: logoGlow 2s ease-in-out infinite;
+
+}
+
+.loading-logo span { color: var(--cyan); }
+
+@keyframes logoGlow {
+
+  0%,100% { text-shadow: 0 0 20px rgba(77,149,255,.6); }
+
+  50% { text-shadow: 0 0 40px rgba(0,229,255,.9), 0 0 80px rgba(77,149,255,.4); }
+
+}
+
+.loading-bar-wrap {
+
+  width: 240px; height: 4px;
+
+  background: var(--panel2); border-radius: 2px;
+
+  overflow: hidden; border: 1px solid var(--border);
+
+}
+
+.loading-bar {
+
+  height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--cyan));
+
+  border-radius: 2px; animation: loadBar 2s ease forwards;
+
+}
+
+@keyframes loadBar { to { width: 100%; } }
+
+.loading-text {
+
+  font-size: 11px; letter-spacing: 3px; color: var(--text3);
+
+  text-transform: uppercase; animation: blink 1.2s infinite;
+
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.loading-sys { font-size: 11px; color: var(--text3); letter-spacing: 1px; max-width: 260px; text-align: center; }
+
+
+
+/* ===================== ASSESSMENT SCREEN ===================== */
+
+#assessment {
+
+  position: fixed; inset: 0; background: var(--bg);
+
+  z-index: 9000; overflow-y: auto;
+
+  display: none;
+
+}
+
+.assess-header {
+
+  background: var(--bg2);
+
+  border-bottom: 1px solid var(--border);
+
+  padding: 16px 20px;
+
+  position: sticky; top: 0; z-index: 10;
+
+}
+
+.assess-title {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 16px; font-weight: 700; letter-spacing: 3px;
+
+  color: var(--cyan); text-transform: uppercase;
+
+}
+
+.assess-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+.assess-progress-bar {
+
+  height: 3px; background: var(--panel2);
+
+  border-radius: 2px; margin-top: 12px; overflow: hidden;
+
+}
+
+.assess-bar-fill {
+
+  height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan));
+
+  border-radius: 2px; transition: width .4s ease;
+
+}
+
+.assess-body { padding: 20px; }
+
+.assess-question {
+
+  display: none;
+
+  animation: fadeUp .3s ease;
+
+}
+
+.assess-question.active { display: block; }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+
+
+.q-num { font-size: 11px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+
+.q-text { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 20px; line-height: 1.5; }
+
+.q-category { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 3px 10px; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; }
+
+
+
+.q-options { display: flex; flex-direction: column; gap: 8px; }
+
+.q-option {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r);
+
+  padding: 12px 16px;
+
+  cursor: pointer;
+
+  font-size: 13px; font-weight: 500;
+
+  transition: all .15s;
+
+  display: flex; align-items: center; gap: 10px;
+
+}
+
+.q-option:hover { border-color: var(--border2); background: var(--panel2); }
+
+.q-option.selected { border-color: var(--blue); background: rgba(45,127,249,.1); color: var(--blue3); }
+
+.q-option-dot {
+
+  width: 16px; height: 16px; border-radius: 50%;
+
+  border: 1.5px solid var(--border2); flex-shrink: 0;
+
+  transition: all .15s;
+
+}
+
+.q-option.selected .q-option-dot { background: var(--blue2); border-color: var(--blue2); }
+
+
+
+.q-slider-wrap { margin-top: 8px; }
+
+.q-slider {
+
+  width: 100%; -webkit-appearance: none; appearance: none;
+
+  height: 6px; border-radius: 3px;
+
+  background: var(--panel2); outline: none;
+
+  border: 1px solid var(--border);
+
+}
+
+.q-slider::-webkit-slider-thumb {
+
+  -webkit-appearance: none; width: 20px; height: 20px;
+
+  border-radius: 50%; background: var(--blue2);
+
+  border: 2px solid var(--bg); cursor: pointer;
+
+  box-shadow: 0 0 8px rgba(77,149,255,.5);
+
+}
+
+.q-slider-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); margin-top: 6px; }
+
+.q-value-display {
+
+  text-align: center; font-family: 'Rajdhani', sans-serif;
+
+  font-size: 28px; font-weight: 700; color: var(--blue2); margin-top: 8px;
+
+}
+
+
+
+.q-input {
+
+  width: 100%; background: var(--panel);
+
+  border: 1px solid var(--border); border-radius: var(--r);
+
+  padding: 12px 14px; color: var(--text);
+
+  font-family: 'Exo 2', sans-serif; font-size: 14px;
+
+  outline: none; transition: border-color .15s;
+
+}
+
+.q-input:focus { border-color: var(--blue); }
+
+
+
+.assess-nav { display: flex; gap: 10px; margin-top: 24px; }
+
+.btn-prev, .btn-next {
+
+  flex: 1; padding: 14px;
+
+  border-radius: var(--r); border: 1px solid var(--border2);
+
+  font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+
+  transition: all .2s;
+
+}
+
+.btn-prev { background: transparent; color: var(--text2); }
+
+.btn-prev:hover { border-color: var(--border3); color: var(--text); }
+
+.btn-next { background: rgba(45,127,249,.15); color: var(--blue2); border-color: var(--blue); }
+
+.btn-next:hover { background: rgba(45,127,249,.25); box-shadow: var(--glow-blue); }
+
+
+
+/* ===================== RESULT SCREEN ===================== */
+
+#result-screen {
+
+  position: fixed; inset: 0; background: var(--bg);
+
+  z-index: 9001; overflow-y: auto; display: none;
+
+  padding: 24px 20px;
+
+}
+
+.result-title {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 13px; font-weight: 700; letter-spacing: 3px;
+
+  color: var(--cyan); text-transform: uppercase;
+
+  text-align: center; margin-bottom: 4px;
+
+}
+
+.result-subtitle {
+
+  font-size: 11px; color: var(--text3); text-align: center;
+
+  letter-spacing: 1px; margin-bottom: 24px;
+
+}
+
+.result-hexagon {
+
+  width: 100px; height: 100px; margin: 0 auto 20px;
+
+  background: linear-gradient(135deg, var(--bg3), var(--panel2));
+
+  border: 2px solid var(--blue);
+
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+  box-shadow: var(--glow-blue);
+
+}
+
+.result-total-num {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 32px; font-weight: 700; color: var(--blue2); line-height: 1;
+
+}
+
+.result-total-lbl { font-size: 9px; color: var(--cyan); letter-spacing: 1px; text-transform: uppercase; }
+
+
+
+.result-grid {
+
+  display: grid; grid-template-columns: 1fr 1fr;
+
+  gap: 8px; margin-bottom: 20px;
+
+}
+
+.result-cat {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r);
+
+  padding: 12px 14px;
+
+  text-align: center;
+
+}
+
+.result-cat-icon { font-size: 22px; margin-bottom: 4px; }
+
+.result-cat-name { font-size: 10px; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; }
+
+.result-cat-lvl {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 28px; font-weight: 700; line-height: 1;
+
+}
+
+.result-cat-bar {
+
+  height: 4px; background: var(--bg3);
+
+  border-radius: 2px; margin-top: 6px;
+
+}
+
+.result-cat-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+
+
+
+.result-analysis {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border2);
+
+  border-radius: var(--r2);
+
+  padding: 16px;
+
+  margin-bottom: 20px;
+
+}
+
+.result-analysis-title {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 13px; font-weight: 700; letter-spacing: 2px;
+
+  color: var(--cyan); text-transform: uppercase; margin-bottom: 12px;
+
+}
+
+.analysis-row {
+
+  display: flex; align-items: center; gap: 10px;
+
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+
+}
+
+.analysis-row:last-child { border-bottom: none; }
+
+.analysis-icon { font-size: 16px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.analysis-text { flex: 1; font-size: 12px; color: var(--text2); }
+
+.analysis-tag {
+
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+
+  border-radius: 4px; letter-spacing: .5px; flex-shrink: 0;
+
+}
+
+.tag-strong { background: rgba(0,230,118,.1); color: var(--green); border: 1px solid rgba(0,230,118,.25); }
+
+.tag-grow   { background: rgba(45,127,249,.1); color: var(--blue2); border: 1px solid rgba(45,127,249,.25); }
+
+.tag-weak   { background: rgba(255,59,59,.1); color: var(--red); border: 1px solid rgba(255,59,59,.25); }
+
+
+
+.btn-arise {
+
+  width: 100%; padding: 16px;
+
+  background: linear-gradient(135deg, rgba(45,127,249,.2), rgba(0,229,255,.1));
+
+  border: 1.5px solid var(--blue);
+
+  border-radius: var(--r2);
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 18px; font-weight: 700; letter-spacing: 4px;
+
+  color: var(--cyan); text-transform: uppercase; cursor: pointer;
+
+  transition: all .2s; position: relative; overflow: hidden;
+
+}
+
+.btn-arise:hover {
+
+  background: linear-gradient(135deg, rgba(45,127,249,.35), rgba(0,229,255,.2));
+
+  box-shadow: var(--glow-cyan);
+
+}
+
+.btn-arise::before {
+
+  content: ''; position: absolute; inset: 0;
+
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+
+  transform: translateX(-100%); animation: shimmer 2.5s infinite;
+
+}
+
+@keyframes shimmer { to { transform: translateX(100%); } }
+
+
+
+/* ===================== MAIN NAV ===================== */
+
+.top-nav {
+
+  background: var(--bg2);
+
+  border-bottom: 1px solid var(--border);
+
+  padding: 12px 16px;
+
+  display: flex; align-items: center; justify-content: space-between;
+
+  position: sticky; top: 0; z-index: 100;
+
+}
+
+.nav-logo {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 22px; font-weight: 700; letter-spacing: 4px;
+
+  color: var(--blue2);
+
+}
+
+.nav-logo span { color: var(--cyan); }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.nav-xp-pill {
+
+  background: rgba(45,127,249,.12);
+
+  border: 1px solid rgba(45,127,249,.3);
+
+  border-radius: 20px; padding: 4px 10px;
+
+  font-size: 11px; font-weight: 700; color: var(--blue2);
+
+  letter-spacing: .5px;
+
+}
+
+.nav-notif-btn {
+
+  width: 32px; height: 32px; border-radius: var(--r);
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  display: flex; align-items: center; justify-content: center;
+
+  cursor: pointer; position: relative; font-size: 16px;
+
+}
+
+.notif-dot {
+
+  width: 8px; height: 8px; border-radius: 50%;
+
+  background: var(--red); position: absolute; top: 5px; right: 5px;
+
+  border: 1.5px solid var(--bg2);
+
+}
+
+
+
+/* ===================== BOTTOM NAV ===================== */
+
+.bottom-nav {
+
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+
+  width: 100%; max-width: 480px;
+
+  background: var(--bg2);
+
+  border-top: 1px solid var(--border);
+
+  display: flex; justify-content: space-around;
+
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+
+  z-index: 100;
+
+}
+
+.bnav {
+
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+
+  cursor: pointer; padding: 6px 14px; border-radius: var(--r);
+
+  transition: all .2s; color: var(--text3);
+
+  border: none; background: transparent;
+
+}
+
+.bnav.active { color: var(--blue2); }
+
+.bnav-icon { font-size: 22px; line-height: 1; }
+
+.bnav-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+
+
+/* ===================== PAGE SYSTEM ===================== */
+
+.pages { flex: 1; overflow-y: auto; padding-bottom: 80px; }
+
+.page { display: none; padding: 16px; animation: fadeIn .25s ease; }
+
+.page.active { display: block; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+
+
+/* ===================== COMMON COMPONENTS ===================== */
+
+.sys-msg {
+
+  background: rgba(0,229,255,.05);
+
+  border: 1px solid rgba(0,229,255,.18);
+
+  border-radius: var(--r); padding: 10px 14px;
+
+  font-size: 11px; color: var(--cyan); letter-spacing: .5px;
+
+  display: flex; align-items: center; gap: 8px;
+
+  margin-bottom: 14px;
+
+}
+
+.sys-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 1.5s infinite; flex-shrink: 0; }
+
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.8)} }
+
+
+
+.sec-title {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+
+  color: var(--text3); text-transform: uppercase;
+
+  margin-bottom: 10px;
+
+  display: flex; align-items: center; gap: 8px;
+
+}
+
+.sec-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+
+
+.card {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r2);
+
+  padding: 14px 16px;
+
+  margin-bottom: 12px;
+
+  position: relative; overflow: hidden;
+
+}
+
+.card-accent::before {
+
+  content: ''; position: absolute;
+
+  top: 0; left: 0; right: 0; height: 2px;
+
+}
+
+.accent-blue::before { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+
+.accent-gold::before { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+
+.accent-red::before  { background: linear-gradient(90deg, var(--red), var(--pink)); }
+
+.accent-green::before{ background: linear-gradient(90deg, var(--green), var(--teal)); }
+
+.accent-purple::before{ background: linear-gradient(90deg, var(--purple), var(--pink)); }
+
+
+
+/* ===================== XP BAR ===================== */
+
+.xp-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+
+.xp-track {
+
+  height: 8px; background: var(--bg3);
+
+  border-radius: 4px; overflow: hidden;
+
+  border: 1px solid var(--border);
+
+}
+
+.xp-fill {
+
+  height: 100%; border-radius: 4px;
+
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+
+  transition: width 1.2s cubic-bezier(.34,1.2,.64,1);
+
+  position: relative;
+
+}
+
+.xp-fill::after {
+
+  content: ''; position: absolute;
+
+  top: 0; right: 0; bottom: 0; width: 30px;
+
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.25));
+
+}
+
+
+
+/* ===================== STAT PILL ===================== */
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+
+.stat-pill {
+
+  background: var(--bg3);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r);
+
+  padding: 10px 12px;
+
+}
+
+.stat-pill-label { font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
+.stat-pill-val { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; line-height: 1; }
+
+.stat-pill-sub { font-size: 10px; color: var(--text2); margin-top: 3px; }
+
+
+
+/* ===================== DASHBOARD SPECIFIC ===================== */
+
+.hero-card {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border2);
+
+  border-radius: var(--r3);
+
+  padding: 16px;
+
+  margin-bottom: 14px;
+
+  position: relative; overflow: hidden;
+
+}
+
+.hero-card::before {
+
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--purple));
+
+}
+
+.hero-card::after {
+
+  content: ''; position: absolute;
+
+  top: -60px; right: -60px;
+
+  width: 180px; height: 180px;
+
+  background: radial-gradient(circle, rgba(45,127,249,.06) 0%, transparent 70%);
+
+  pointer-events: none;
+
+}
+
+.hero-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+
+.avatar {
+
+  width: 60px; height: 60px; border-radius: 12px; flex-shrink: 0;
+
+  background: linear-gradient(135deg, #0a1a3a, #1a3060);
+
+  border: 1.5px solid var(--blue);
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-size: 26px; position: relative;
+
+}
+
+.avatar::after {
+
+  content: ''; position: absolute; inset: -4px; border-radius: 15px;
+
+  border: 1px solid rgba(45,127,249,.2);
+
+}
+
+.hero-info { flex: 1; min-width: 0; }
+
+.hero-name {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 20px; font-weight: 700; letter-spacing: 1.5px;
+
+}
+
+.hero-title {
+
+  display: inline-block; margin-top: 4px;
+
+  background: rgba(176,64,255,.12); border: 1px solid rgba(176,64,255,.3);
+
+  color: var(--purple2); font-size: 10px; font-weight: 700;
+
+  letter-spacing: 1.5px; padding: 3px 8px; border-radius: 4px;
+
+  text-transform: uppercase;
+
+}
+
+.hero-meta { font-size: 11px; color: var(--text2); margin-top: 5px; }
+
+.hero-meta span { color: var(--blue2); font-weight: 700; }
+
+.rank-badge {
+
+  width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0;
+
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 22px; font-weight: 700; color: #0a0a0a;
+
+  box-shadow: var(--glow-gold);
+
+}
+
+
+
+/* ===================== CATEGORY CARDS ===================== */
+
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+
+.cat-card {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r);
+
+  padding: 12px 14px;
+
+  cursor: pointer; transition: all .2s;
+
+  position: relative; overflow: hidden;
+
+}
+
+.cat-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+
+.cat-card::before {
+
+  content: ''; position: absolute;
+
+  left: 0; top: 0; bottom: 0; width: 3px; border-radius: 0 0 0 0;
+
+}
+
+.cat-blue::before  { background: var(--blue); }
+
+.cat-cyan::before  { background: var(--cyan); }
+
+.cat-gold::before  { background: var(--gold); }
+
+.cat-purple::before{ background: var(--purple); }
+
+.cat-green::before { background: var(--green); }
+
+.cat-red::before   { background: var(--red); }
+
+.cat-teal::before  { background: var(--teal); }
+
+.cat-amber::before { background: var(--amber); }
+
+
+
+.cat-icon { font-size: 20px; margin-bottom: 4px; }
+
+.cat-name { font-size: 10px; color: var(--text2); letter-spacing: .8px; text-transform: uppercase; margin-bottom: 4px; }
+
+.cat-lvl { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; line-height: 1; }
+
+.cat-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+.cat-bar-track { height: 3px; background: var(--bg3); border-radius: 2px; margin-top: 8px; }
+
+.cat-bar-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+
+
+
+/* ===================== TODAY PANEL ===================== */
+
+.today-panel {
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--r2); padding: 14px 16px;
+
+  margin-bottom: 14px;
+
+}
+
+.today-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+
+.today-title { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+.today-pct { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--cyan); }
+
+.mission-list { display: flex; flex-direction: column; gap: 6px; }
+
+.mission-item {
+
+  display: flex; align-items: center; gap: 10px;
+
+  padding: 9px 12px;
+
+  background: var(--bg3); border: 1px solid var(--border);
+
+  border-radius: var(--r); cursor: pointer; transition: all .2s;
+
+}
+
+.mission-item:hover { border-color: var(--border2); }
+
+.mission-item.done { opacity: .55; }
+
+.mission-check {
+
+  width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0;
+
+  border: 1.5px solid var(--border2);
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-size: 11px; transition: all .2s;
+
+}
+
+.mission-check.checked { background: rgba(0,230,118,.12); border-color: var(--green); color: var(--green); }
+
+.mission-name { flex: 1; font-size: 12px; font-weight: 500; }
+
+.mission-name.crossed { text-decoration: line-through; color: var(--text3); }
+
+.mission-xp {
+
+  font-size: 10px; font-weight: 700; color: var(--blue2);
+
+  background: rgba(45,127,249,.1); border: 1px solid rgba(45,127,249,.2);
+
+  padding: 2px 7px; border-radius: 4px;
+
+}
+
+.mission-xp.gold { color: var(--gold); background: rgba(255,196,0,.08); border-color: rgba(255,196,0,.2); }
+
+
+
+/* ===================== QUESTS PAGE ===================== */
+
+.streak-card {
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r2); padding: 14px 16px; margin-bottom: 14px;
+
+  display: flex; align-items: center; justify-content: space-between;
+
+}
+
+.streak-num { font-family: 'Rajdhani', sans-serif; font-size: 36px; font-weight: 700; color: var(--amber); }
+
+.streak-label { font-size: 11px; color: var(--text2); letter-spacing: .5px; }
+
+.streak-days { display: flex; gap: 5px; margin-top: 8px; }
+
+.sday {
+
+  width: 30px; height: 30px; border-radius: 6px;
+
+  border: 1px solid var(--border);
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-size: 9px; font-weight: 700; color: var(--text3);
+
+  text-transform: uppercase;
+
+}
+
+.sday.done { background: rgba(255,152,0,.12); border-color: rgba(255,152,0,.4); color: var(--amber); }
+
+.sday.today { background: rgba(255,152,0,.25); border-color: var(--amber); color: var(--amber); }
+
+.sday.fail  { background: rgba(255,59,59,.08); border-color: rgba(255,59,59,.25); color: var(--red2); }
+
+
+
+.filter-tabs { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+
+.filter-tabs::-webkit-scrollbar { display: none; }
+
+.ftab {
+
+  flex-shrink: 0; padding: 6px 16px; border-radius: 20px;
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  color: var(--text2); font-size: 11px; font-weight: 700;
+
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+
+  transition: all .2s;
+
+}
+
+.ftab.active { background: rgba(45,127,249,.12); border-color: rgba(45,127,249,.4); color: var(--blue2); }
+
+
+
+.quest-list { display: flex; flex-direction: column; gap: 8px; }
+
+.quest-item {
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 12px 14px;
+
+  display: flex; gap: 10px; cursor: pointer;
+
+  transition: all .2s; position: relative; overflow: hidden;
+
+}
+
+.quest-item:hover { border-color: var(--border2); }
+
+.quest-item.done { opacity: .5; }
+
+.quest-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; }
+
+.qi-urgent::before { background: linear-gradient(90deg, var(--red), transparent); }
+
+.qi-normal::before { background: linear-gradient(90deg, var(--blue), transparent); }
+
+.qi-bonus::before  { background: linear-gradient(90deg, var(--gold), transparent); }
+
+.qi-weekly::before { background: linear-gradient(90deg, var(--purple), transparent); }
+
+.qi-monthly::before{ background: linear-gradient(90deg, var(--cyan), transparent); }
+
+.qi-recovery::before{ background: linear-gradient(90deg, var(--red), var(--amber)); }
+
+
+
+.q-chk {
+
+  width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+
+  border: 1.5px solid var(--border2);
+
+  display: flex; align-items: center; justify-content: center;
+
+  margin-top: 1px; font-size: 12px; transition: all .2s;
+
+}
+
+.q-chk.done { background: rgba(0,230,118,.1); border-color: var(--green); color: var(--green); }
+
+.q-body { flex: 1; min-width: 0; }
+
+.q-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+
+.q-desc { font-size: 11px; color: var(--text2); margin-bottom: 6px; line-height: 1.4; }
+
+.q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+.q-xp {
+
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+
+  border-radius: 4px; letter-spacing: .5px;
+
+}
+
+.xp-blue { background: rgba(45,127,249,.1); border: 1px solid rgba(45,127,249,.25); color: var(--blue2); }
+
+.xp-gold { background: rgba(255,196,0,.08); border: 1px solid rgba(255,196,0,.25); color: var(--gold); }
+
+.xp-red  { background: rgba(255,59,59,.08);  border: 1px solid rgba(255,59,59,.25);  color: var(--red2); }
+
+.xp-purple{background: rgba(176,64,255,.08); border: 1px solid rgba(176,64,255,.25); color: var(--purple2); }
+
+.q-deadline { font-size: 10px; color: var(--text3); }
+
+.q-streak {
+
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+
+  background: rgba(255,152,0,.08); border: 1px solid rgba(255,152,0,.25); color: var(--amber);
+
+}
+
+.q-diff {
+
+  font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
+
+  letter-spacing: .5px; text-transform: uppercase;
+
+}
+
+.diff-e { background: rgba(0,230,118,.08); color: var(--green); }
+
+.diff-m { background: rgba(45,127,249,.08); color: var(--blue2); }
+
+.diff-h { background: rgba(255,59,59,.08); color: var(--red2); }
+
+
+
+/* ===================== PROFILE PAGE ===================== */
+
+.profile-hero {
+
+  background: var(--panel); border: 1px solid var(--border2);
+
+  border-radius: var(--r3); padding: 24px 20px;
+
+  text-align: center; margin-bottom: 14px;
+
+  position: relative; overflow: hidden;
+
+}
+
+.profile-hero::before {
+
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--purple));
+
+}
+
+.profile-hero::after {
+
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+
+  background: linear-gradient(0deg, rgba(45,127,249,.03), transparent);
+
+  pointer-events: none;
+
+}
+
+.ph-avatar {
+
+  width: 88px; height: 88px; border-radius: 18px;
+
+  background: linear-gradient(135deg, #071228, #0f2050);
+
+  border: 2px solid var(--blue); margin: 0 auto 14px;
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-size: 40px; position: relative;
+
+  box-shadow: var(--glow-blue);
+
+}
+
+.ph-ring {
+
+  position: absolute; inset: -6px; border-radius: 22px;
+
+  border: 2px solid transparent;
+
+  background: linear-gradient(135deg, var(--blue), var(--cyan), var(--purple)) border-box;
+
+  -webkit-mask: linear-gradient(#fff, #fff) padding-box, linear-gradient(#fff, #fff);
+  mask: linear-gradient(#fff, #fff) padding-box, linear-gradient(#fff, #fff);
+
+  -webkit-mask-composite: destination-out; mask-composite: exclude;
+
+}
+
+.ph-name { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+
+.ph-class { color: var(--cyan); font-size: 11px; letter-spacing: 2.5px; font-weight: 500; text-transform: uppercase; margin: 4px 0 12px; }
+
+.titles-row { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 14px; }
+
+.title-chip {
+
+  font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+
+  padding: 3px 9px; border-radius: 4px;
+
+}
+
+.tc-purple{ background: rgba(176,64,255,.12); border: 1px solid rgba(176,64,255,.3); color: var(--purple2); }
+
+.tc-gold  { background: rgba(255,196,0,.1);   border: 1px solid rgba(255,196,0,.3);  color: var(--gold); }
+
+.tc-cyan  { background: rgba(0,229,255,.08);   border: 1px solid rgba(0,229,255,.25); color: var(--cyan); }
+
+.tc-blue  { background: rgba(45,127,249,.1);   border: 1px solid rgba(45,127,249,.3); color: var(--blue3); }
+
+.tc-red   { background: rgba(255,59,59,.1);    border: 1px solid rgba(255,59,59,.3);  color: var(--red2); }
+
+.ph-total { font-family: 'Rajdhani', sans-serif; font-size: 56px; font-weight: 700; line-height: 1; color: var(--blue2); }
+
+.ph-total-lbl { font-size: 10px; color: var(--text3); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; }
+
+
+
+.skill-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+.skill-row {
+
+  display: flex; align-items: center; gap: 12px;
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 10px 14px;
+
+}
+
+.sk-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+
+.sk-info { flex: 1; min-width: 0; }
+
+.sk-name { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+
+.sk-bar { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+
+.sk-bar-fill { height: 100%; border-radius: 2px; transition: width 1.2s ease; }
+
+.sk-lvl { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--blue2); min-width: 28px; text-align: right; }
+
+.sk-pts { font-size: 9px; color: var(--text3); text-align: right; }
+
+
+
+.ach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+
+.ach-card {
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 12px; text-align: center;
+
+}
+
+.ach-card.locked { opacity: .4; }
+
+.ach-icon { font-size: 28px; margin-bottom: 6px; }
+
+.ach-name { font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+
+.ach-desc { font-size: 9px; color: var(--text3); margin-top: 3px; }
+
+
+
+.sw-table { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden; margin-bottom: 14px; }
+
+.sw-row { display: flex; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+
+.sw-row:last-child { border-bottom: none; }
+
+.sw-label { flex: 1; font-size: 12px; }
+
+.sw-tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 4px; }
+
+.sw-strong { background: rgba(0,230,118,.08); color: var(--green); border: 1px solid rgba(0,230,118,.2); }
+
+.sw-grow   { background: rgba(45,127,249,.08); color: var(--blue2); border: 1px solid rgba(45,127,249,.2); }
+
+.sw-weak   { background: rgba(255,59,59,.08);  color: var(--red2);  border: 1px solid rgba(255,59,59,.2); }
+
+
+
+/* ===================== STATS PAGE ===================== */
+
+.stats-header-card {
+
+  background: var(--panel); border: 1px solid var(--border2);
+
+  border-radius: var(--r2); padding: 16px;
+
+  text-align: center; margin-bottom: 14px;
+
+}
+
+.stats-total-num {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 42px; font-weight: 700; color: var(--blue2);
+
+}
+
+.radar-wrap { padding: 0 10px; margin-bottom: 14px; }
+
+.radar-svg { width: 100%; }
+
+
+
+.stat-table { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r2); overflow: hidden; margin-bottom: 14px; }
+
+.st-head {
+
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+
+  padding: 8px 14px; background: var(--bg3);
+
+  font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text3);
+
+}
+
+.st-row {
+
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+
+  padding: 10px 14px; border-top: 1px solid var(--border);
+
+  align-items: center;
+
+}
+
+.st-cat { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; }
+
+.st-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.st-val { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; }
+
+.st-xp { font-size: 11px; color: var(--text2); }
+
+.st-trend { font-size: 11px; font-weight: 600; }
+
+.trend-up   { color: var(--green); }
+
+.trend-down { color: var(--red2); }
+
+.trend-flat { color: var(--text3); }
+
+
+
+.timeline-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r2); padding: 14px 16px; margin-bottom: 14px; }
+
+.timeline-list { display: flex; flex-direction: column; gap: 0; }
+
+.tl-item { display: flex; gap: 12px; padding-bottom: 12px; position: relative; }
+
+.tl-item:last-child { padding-bottom: 0; }
+
+.tl-item::before {
+
+  content: ''; position: absolute; left: 15px; top: 30px; bottom: 0;
+
+  width: 1px; background: var(--border);
+
+}
+
+.tl-item:last-child::before { display: none; }
+
+.tl-dot {
+
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+
+  border: 1px solid var(--border);
+
+}
+
+.tl-body { flex: 1; }
+
+.tl-title { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+
+.tl-time { font-size: 10px; color: var(--text3); margin-bottom: 4px; }
+
+.tl-xp { font-size: 11px; color: var(--blue2); font-weight: 700; }
+
+
+
+/* ===================== FOCUS TIMER ===================== */
+
+.focus-page { display: none; padding: 20px; }
+
+.focus-page.active { display: flex; flex-direction: column; align-items: center; }
+
+.focus-ring-wrap {
+
+  width: 240px; height: 240px; position: relative; margin: 20px 0;
+
+}
+
+.focus-svg { position: absolute; inset: 0; }
+
+.focus-center {
+
+  position: absolute; inset: 0;
+
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+
+}
+
+.focus-time {
+
+  font-family: 'Rajdhani', sans-serif;
+
+  font-size: 48px; font-weight: 700; color: var(--text);
+
+  line-height: 1;
+
+}
+
+.focus-lbl { font-size: 11px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+.focus-mode-select { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+
+.focus-mode-btn {
+
+  padding: 8px 16px; border-radius: 20px;
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  color: var(--text2); font-size: 11px; font-weight: 700; letter-spacing: 1px;
+
+  cursor: pointer; text-transform: uppercase; transition: all .2s;
+
+}
+
+.focus-mode-btn.active {
+
+  background: rgba(45,127,249,.12); border-color: rgba(45,127,249,.4); color: var(--blue2);
+
+}
+
+.focus-controls { display: flex; gap: 12px; margin-bottom: 24px; }
+
+.focus-btn {
+
+  padding: 14px 32px; border-radius: var(--r2);
+
+  border: 1.5px solid var(--border2);
+
+  font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700;
+
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all .2s;
+
+}
+
+.focus-start { background: rgba(45,127,249,.15); color: var(--blue2); border-color: var(--blue); }
+
+.focus-start:hover { background: rgba(45,127,249,.25); box-shadow: var(--glow-blue); }
+
+.focus-reset { background: transparent; color: var(--text2); }
+
+.focus-reset:hover { border-color: var(--border3); color: var(--text); }
+
+.focus-stats-row { display: flex; gap: 8px; width: 100%; margin-bottom: 16px; }
+
+.focus-stat { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r); padding: 10px; text-align: center; }
+
+.focus-stat-val { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; color: var(--blue2); }
+
+.focus-stat-lbl { font-size: 9px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+.focus-sessions { width: 100%; }
+
+.focus-session-item {
+
+  display: flex; align-items: center; gap: 10px;
+
+  padding: 10px 12px; background: var(--panel);
+
+  border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 6px;
+
+}
+
+
+
+/* ===================== NOTIFICATIONS PAGE ===================== */
+
+.notif-mode-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+.notif-mode-card {
+
+  background: var(--panel); border: 2px solid var(--border);
+
+  border-radius: var(--r2); padding: 14px 16px;
+
+  cursor: pointer; transition: all .2s; position: relative; overflow: hidden;
+
+}
+
+.notif-mode-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+
+.nmc-normal::before  { background: var(--blue); }
+
+.nmc-strict::before  { background: var(--gold); }
+
+.nmc-cmd::before     { background: var(--red); }
+
+.nmc-normal.sel  { border-color: var(--blue); background: rgba(45,127,249,.07); }
+
+.nmc-strict.sel  { border-color: var(--gold); background: rgba(255,196,0,.05); }
+
+.nmc-cmd.sel     { border-color: var(--red);  background: rgba(255,59,59,.05); }
+
+.nmc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+
+.nmc-name { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1px; }
+
+.nmc-radio {
+
+  width: 20px; height: 20px; border-radius: 50%;
+
+  border: 2px solid var(--border2);
+
+  display: flex; align-items: center; justify-content: center;
+
+}
+
+.nmc-dot { width: 10px; height: 10px; border-radius: 50%; background: transparent; transition: all .2s; }
+
+.nmc-normal.sel .nmc-dot { background: var(--blue2); }
+
+.nmc-strict.sel .nmc-dot { background: var(--gold); }
+
+.nmc-cmd.sel    .nmc-dot { background: var(--red); }
+
+.nmc-desc { font-size: 11px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+
+.nmc-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.nmc-chip {
+
+  font-size: 9px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+
+  padding: 2px 8px; border-radius: 3px;
+
+}
+
+.chip-b { background: rgba(45,127,249,.1); color: var(--blue2); }
+
+.chip-g { background: rgba(255,196,0,.08); color: var(--gold); }
+
+.chip-r { background: rgba(255,59,59,.1);  color: var(--red2); }
+
+
+
+.notif-level-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+.nl-item {
+
+  display: flex; align-items: flex-start; gap: 10px;
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 10px 12px;
+
+}
+
+.nl-badge {
+
+  width: 30px; height: 30px; border-radius: 6px; flex-shrink: 0;
+
+  display: flex; align-items: center; justify-content: center;
+
+  font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
+
+}
+
+.nb1 { background: rgba(45,127,249,.12); color: var(--blue2); }
+
+.nb2 { background: rgba(255,196,0,.1);   color: var(--gold); }
+
+.nb3 { background: rgba(176,64,255,.12); color: var(--purple2); }
+
+.nb4 { background: rgba(255,152,0,.1);   color: var(--amber); }
+
+.nb5 { background: rgba(255,59,59,.12);  color: var(--red2); }
+
+.nl-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+
+.nl-desc { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+
+
+.toggle-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+.toggle-row {
+
+  display: flex; align-items: center; justify-content: space-between;
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 10px 14px;
+
+}
+
+.toggle-info { flex: 1; min-width: 0; }
+
+.toggle-lbl { font-size: 12px; font-weight: 500; }
+
+.toggle-sub { font-size: 10px; color: var(--text3); margin-top: 1px; }
+
+.toggle-sw {
+
+  width: 40px; height: 22px; border-radius: 11px;
+
+  background: var(--bg3); border: 1px solid var(--border2);
+
+  cursor: pointer; position: relative; transition: all .2s; flex-shrink: 0; margin-left: 12px;
+
+}
+
+.toggle-sw.on { background: rgba(45,127,249,.25); border-color: var(--blue); }
+
+.toggle-sw::after {
+
+  content: ''; position: absolute; top: 3px; left: 3px;
+
+  width: 14px; height: 14px; border-radius: 50%;
+
+  background: var(--text3); transition: all .2s;
+
+}
+
+.toggle-sw.on::after { left: 21px; background: var(--blue2); }
+
+
+
+.acc-report {
+
+  background: var(--panel); border: 1px solid rgba(255,59,59,.2);
+
+  border-radius: var(--r2); padding: 14px 16px; margin-bottom: 14px;
+
+}
+
+.acc-head {
+
+  display: flex; align-items: center; gap: 6px;
+
+  font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700;
+
+  letter-spacing: 2px; color: var(--red2); text-transform: uppercase;
+
+  margin-bottom: 12px;
+
+}
+
+.acc-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+
+.acc-row:last-child { border-bottom: none; }
+
+.av-neg { color: var(--red2); font-weight: 700; }
+
+.av-pos { color: var(--green); font-weight: 700; }
+
+.av-warn{ color: var(--amber); font-weight: 700; }
+
+
+
+/* ===================== JOURNAL PAGE ===================== */
+
+.journal-editor {
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r2); padding: 14px; margin-bottom: 14px;
+
+}
+
+.journal-date { font-size: 11px; color: var(--text3); letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+
+.journal-textarea {
+
+  width: 100%; min-height: 120px; background: var(--bg3);
+
+  border: 1px solid var(--border); border-radius: var(--r);
+
+  padding: 12px 14px; color: var(--text);
+
+  font-family: 'Exo 2', sans-serif; font-size: 13px; line-height: 1.6;
+
+  outline: none; resize: vertical; transition: border-color .15s;
+
+}
+
+.journal-textarea:focus { border-color: var(--blue); }
+
+.journal-textarea::placeholder { color: var(--text3); }
+
+.journal-mood { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+
+.mood-btn {
+
+  padding: 6px 12px; border-radius: 20px;
+
+  background: var(--bg3); border: 1px solid var(--border);
+
+  cursor: pointer; font-size: 12px; transition: all .2s;
+
+}
+
+.mood-btn.active { background: rgba(45,127,249,.12); border-color: rgba(45,127,249,.4); }
+
+.journal-save {
+
+  width: 100%; padding: 12px; border-radius: var(--r);
+
+  background: rgba(45,127,249,.12); border: 1px solid rgba(45,127,249,.3);
+
+  color: var(--blue2); font-family: 'Rajdhani', sans-serif;
+
+  font-size: 14px; font-weight: 700; letter-spacing: 2px;
+
+  text-transform: uppercase; cursor: pointer; transition: all .2s; margin-top: 10px;
+
+}
+
+.journal-save:hover { background: rgba(45,127,249,.22); box-shadow: var(--glow-blue); }
+
+.journal-entry {
+
+  background: var(--panel); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 12px 14px; margin-bottom: 8px;
+
+}
+
+.je-date { font-size: 10px; color: var(--text3); letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+
+.je-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+.je-mood { font-size: 14px; margin-top: 6px; }
+
+
+
+/* ===================== TOAST ===================== */
+
+#toast {
+
+  position: fixed; top: 70px; left: 50%; z-index: 9998;
+
+  transform: translateX(-50%) translateY(-120px);
+
+  min-width: 240px; max-width: 340px;
+
+  background: var(--panel2); border: 1px solid var(--blue);
+
+  border-radius: var(--r2); padding: 14px 18px;
+
+  text-align: center; transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+
+  box-shadow: var(--glow-blue), 0 8px 32px rgba(0,0,0,.4);
+
+}
+
+#toast.show { transform: translateX(-50%) translateY(0); }
+
+.toast-label { font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--cyan); text-transform: uppercase; margin-bottom: 4px; }
+
+.toast-body { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); }
+
+.toast-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+
+
+/* ===================== LEVEL UP OVERLAY ===================== */
+
+#levelup-overlay {
+
+  position: fixed; inset: 0; background: rgba(0,0,0,.85);
+
+  z-index: 9997; display: none; align-items: center; justify-content: center;
+
+}
+
+#levelup-overlay.show { display: flex; animation: lvlBg .4s ease; }
+
+@keyframes lvlBg { from {opacity:0} to {opacity:1} }
+
+.lvlup-card {
+
+  background: var(--panel); border: 2px solid var(--blue);
+
+  border-radius: 20px; padding: 32px 28px;
+
+  text-align: center; max-width: 300px; width: 90%;
+
+  box-shadow: var(--glow-blue), 0 0 60px rgba(0,229,255,.2);
+
+  animation: lvlCard .4s cubic-bezier(.34,1.4,.64,1);
+
+  position: relative; overflow: hidden;
+
+}
+
+@keyframes lvlCard { from{transform:scale(.6);opacity:0} to{transform:scale(1);opacity:1} }
+
+.lvlup-card::before {
+
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--purple));
+
+}
+
+.lvlup-label { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 4px; color: var(--cyan); text-transform: uppercase; margin-bottom: 12px; }
+
+.lvlup-num { font-family: 'Rajdhani', sans-serif; font-size: 72px; font-weight: 700; color: var(--blue2); line-height: 1; }
+
+.lvlup-sub { font-size: 13px; color: var(--text2); margin-top: 8px; margin-bottom: 20px; }
+
+.lvlup-rewards { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; text-align: left; }
+
+.lvlup-reward-item {
+
+  display: flex; align-items: center; gap: 8px;
+
+  background: var(--bg3); border: 1px solid var(--border);
+
+  border-radius: var(--r); padding: 8px 12px;
+
+  font-size: 12px;
+
+}
+
+.lvlup-close {
+
+  padding: 12px 32px; border-radius: var(--r2);
+
+  background: rgba(45,127,249,.15); border: 1.5px solid var(--blue);
+
+  color: var(--blue2); font-family: 'Rajdhani', sans-serif;
+
+  font-size: 14px; font-weight: 700; letter-spacing: 2px;
+
+  text-transform: uppercase; cursor: pointer; transition: all .2s;
+
+}
+
+.lvlup-close:hover { background: rgba(45,127,249,.3); }
+
+
+
+/* ===================== MISC ===================== */
+
+.spacer { height: 80px; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+
+.info-tag {
+
+  font-size: 10px; font-weight: 700; padding: 3px 10px;
+
+  border-radius: 4px; letter-spacing: .5px; text-transform: uppercase;
+
+}
+
+
+
+@keyframes xpFloat {
+
+  0%   { opacity:0; transform: translateY(0) scale(.8); }
+
+  30%  { opacity:1; transform: translateY(-10px) scale(1.1); }
+
+  100% { opacity:0; transform: translateY(-50px) scale(.9); }
+
+}
+
+.xp-float {
+
+  position: fixed; font-family: 'Rajdhani',sans-serif; font-size: 18px; font-weight: 700;
+
+  color: var(--cyan); pointer-events: none; z-index: 9990;
+
+  animation: xpFloat 1.5s ease forwards;
+
+  text-shadow: var(--glow-cyan);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<!-- ===================== LOADING SCREEN ===================== -->
+
+<div id="loading">
+
+  <div class="loading-logo">ARISE<span>:</span></div>
+
+  <div class="loading-sys">Real Life Leveling System v2.0<br>Initializing Hunter Profile...</div>
+
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+
+  <div class="loading-text">Accessing the System</div>
+
+</div>
+
+
+
+<!-- ===================== ASSESSMENT SCREEN ===================== -->
+
+<div id="assessment">
+
+  <div class="assess-header">
+
+    <div class="assess-title">⚡ Hunter Assessment</div>
+
+    <div class="assess-sub">50 Questions · Calibrating your starting levels</div>
+
+    <div class="assess-progress-bar">
+
+      <div class="assess-bar-fill" id="assess-bar" style="width:0%"></div>
+
+    </div>
+
+  </div>
+
+  <div class="assess-body" id="assess-body">
+
+    <!-- Questions injected by JS -->
+
+  </div>
+
+</div>
+
+
+
+<!-- ===================== RESULT SCREEN ===================== -->
+
+<div id="result-screen">
+
+  <div class="result-title">⚡ Profile Analysis Complete</div>
+
+  <div class="result-subtitle">Your starting levels have been determined by the System</div>
+
+  <div id="result-hex" class="result-hexagon">
+
+    <div class="result-total-num" id="result-total">47</div>
+
+    <div class="result-total-lbl">Total</div>
+
+  </div>
+
+  <div class="result-grid" id="result-grid"><!-- injected --></div>
+
+  <div class="result-analysis" id="result-analysis">
+
+    <div class="result-analysis-title">⚡ Analysis Report</div>
+
+    <div id="result-rows"><!-- injected --></div>
+
+  </div>
+
+  <button class="btn-arise" onclick="launchApp()">⚡ ARISE ⚡</button>
+
+</div>
+
+
+
+<!-- ===================== MAIN APP ===================== -->
+
+<div class="app" id="main-app" style="display:none">
+
+
+
+  <!-- TOP NAV -->
+
+  <div class="top-nav">
+
+    <div class="nav-logo">ARISE<span>:</span></div>
+
+    <div class="nav-right">
+
+      <div class="nav-xp-pill" id="nav-xp-pill">⚡ 12,450 XP</div>
+
+      <div class="nav-notif-btn" onclick="switchPage('notif')">
+
+        🔔<div class="notif-dot" id="notif-dot"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- TOAST -->
+
+  <div id="toast">
+
+    <div class="toast-label" id="toast-label">System Alert</div>
+
+    <div class="toast-body" id="toast-body">—</div>
+
+    <div class="toast-sub" id="toast-sub">—</div>
+
+  </div>
+
+
+
+  <!-- LEVEL UP OVERLAY -->
+
+  <div id="levelup-overlay" onclick="document.getElementById('levelup-overlay').classList.remove('show')">
+
+    <div class="lvlup-card" onclick="event.stopPropagation()">
+
+      <div class="lvlup-label">⚡ Level Up!</div>
+
+      <div class="lvlup-num" id="lvlup-num">48</div>
+
+      <div class="lvlup-sub" id="lvlup-sub">You have grown stronger. The System acknowledges your progress.</div>
+
+      <div class="lvlup-rewards" id="lvlup-rewards">
+
+        <div class="lvlup-reward-item">🔓 New quest slots unlocked</div>
+
+        <div class="lvlup-reward-item">⚡ Stat bonus applied</div>
+
+      </div>
+
+      <button class="lvlup-close" onclick="document.getElementById('levelup-overlay').classList.remove('show')">CONTINUE</button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- PAGES -->
+
+  <div class="pages">
+
+
+
+    <!-- ======== DASHBOARD ======== -->
+
+    <div class="page active" id="page-dash">
+
+      <div class="sys-msg">
+
+        <div class="sys-dot"></div>
+
+        <span>SYSTEM: Daily missions refreshed. 4 quests pending. Streak active: 7 days.</span>
+
+      </div>
+
+
+
+      <!-- Hero Card -->
+
+      <div class="hero-card card-accent accent-blue" style="margin-bottom:14px">
+
+        <div class="hero-row">
+
+          <div class="avatar" id="dash-avatar">🗡️</div>
+
+          <div class="hero-info">
+
+            <div class="hero-name" id="dash-name">AJ HUNTER</div>
+
+            <div class="hero-title">⚔ IRON DISCIPLINE</div>
+
+            <div class="hero-meta">Total Level <span id="dash-level">47</span> · Rank <span id="dash-rank" style="color:var(--gold)">B</span></div>
+
+          </div>
+
+          <div class="rank-badge" id="dash-rank-badge">B</div>
+
+        </div>
+
+        <div class="stat-grid">
+
+          <div class="stat-pill">
+
+            <div class="stat-pill-label">Total XP</div>
+
+            <div class="stat-pill-val" id="dash-xp" style="color:var(--blue2)">12,450</div>
+
+            <div class="stat-pill-sub" id="dash-xp-today">+340 today</div>
+
+          </div>
+
+          <div class="stat-pill">
+
+            <div class="stat-pill-label">Day Streak</div>
+
+            <div class="stat-pill-val" style="color:var(--amber)">7 🔥</div>
+
+            <div class="stat-pill-sub">Best: 14 days</div>
+
+          </div>
+
+        </div>
+
+        <div class="xp-row">
+
+          <span>Level 47 → 48</span>
+
+          <span id="dash-xp-label" style="color:var(--blue2)">12,450 / 15,000 XP</span>
+
+        </div>
+
+        <div class="xp-track"><div class="xp-fill" id="dash-xp-bar" style="width:83%"></div></div>
+
+      </div>
+
+
+
+      <!-- Category Levels -->
+
+      <div class="sec-title">Life Categories</div>
+
+      <div class="cat-grid" id="dash-cats">
+
+        <!-- Injected by JS -->
+
+      </div>
+
+
+
+      <!-- Today's Missions -->
+
+      <div class="sec-title">Today's Missions</div>
+
+      <div class="today-panel">
+
+        <div class="today-head">
+
+          <div class="today-title">Daily Operations</div>
+
+          <div class="today-pct" id="today-pct">20%</div>
+
+        </div>
+
+        <div class="xp-track" style="margin-bottom:12px">
+
+          <div class="xp-fill" id="today-bar" style="width:20%;background:linear-gradient(90deg,var(--green),var(--cyan))"></div>
+
+        </div>
+
+        <div class="mission-list" id="dash-missions">
+
+          <!-- Injected -->
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Weekly Summary -->
+
+      <div class="sec-title">This Week</div>
+
+      <div class="card accent-blue card-accent" style="margin-bottom:14px">
+
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+
+          <span style="font-size:12px;color:var(--text2)">Weekly XP</span>
+
+          <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--blue2);font-size:16px">2,240 / 4,000</span>
+
+        </div>
+
+        <div class="xp-track" style="margin-bottom:12px">
+
+          <div class="xp-fill" style="width:56%"></div>
+
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+
+          <div style="text-align:center">
+
+            <div style="height:40px;background:var(--blue);border-radius:3px;margin-bottom:4px"></div>
+
+            <div style="font-size:9px;color:var(--text3)">M</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:55px;background:var(--blue);border-radius:3px;margin-bottom:4px"></div>
+
+            <div style="font-size:9px;color:var(--text3)">T</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:30px;background:var(--blue);border-radius:3px;margin-bottom:4px"></div>
+
+            <div style="font-size:9px;color:var(--text3)">W</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:60px;background:var(--cyan);border-radius:3px;margin-bottom:4px;box-shadow:0 0 8px rgba(0,229,255,.4)"></div>
+
+            <div style="font-size:9px;color:var(--text3)">T</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:45px;background:var(--blue);border-radius:3px;margin-bottom:4px"></div>
+
+            <div style="font-size:9px;color:var(--text3)">F</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:35px;background:var(--blue);border-radius:3px;margin-bottom:4px"></div>
+
+            <div style="font-size:9px;color:var(--text3)">S</div>
+
+          </div>
+
+          <div style="text-align:center">
+
+            <div style="height:20px;background:var(--border2);border-radius:3px;margin-bottom:4px;border:1px dashed var(--border3)"></div>
+
+            <div style="font-size:9px;color:var(--cyan)">S</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- AI Recommendation -->
+
+      <div class="sec-title">AI Mentor</div>
+
+      <div class="card" style="border-color:rgba(176,64,255,.3);margin-bottom:14px">
+
+        <div style="display:flex;gap:10px;align-items:flex-start">
+
+          <div style="font-size:24px;flex-shrink:0">🤖</div>
+
+          <div>
+
+            <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--purple2);margin-bottom:6px;text-transform:uppercase">System Analysis</div>
+
+            <div style="font-size:12px;color:var(--text2);line-height:1.6">
+
+              Your <strong style="color:var(--blue2)">Academic</strong> and <strong style="color:var(--green)">Career</strong> stats are strong. Your biggest gap is <strong style="color:var(--red2)">Social (Lv 4)</strong>. I recommend adding 1 daily social challenge quest. Physical training also needs consistency — you missed 3 workouts this week.
+
+            </div>
+
+            <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+
+              <span class="info-tag" style="background:rgba(255,59,59,.08);color:var(--red2);border:1px solid rgba(255,59,59,.2)">⚠ Social: Weak</span>
+
+              <span class="info-tag" style="background:rgba(0,230,118,.08);color:var(--green);border:1px solid rgba(0,230,118,.2)">✓ Academic: Strong</span>
+
+              <span class="info-tag" style="background:rgba(255,196,0,.08);color:var(--gold);border:1px solid rgba(255,196,0,.2)">▲ Physical: Growing</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== QUESTS ======== -->
+
+    <div class="page" id="page-quests">
+
+      <!-- Streak -->
+
+      <div class="streak-card">
+
+        <div>
+
+          <div class="streak-num">7 🔥</div>
+
+          <div class="streak-label">Day Streak Active</div>
+
+        </div>
+
+        <div>
+
+          <div style="font-size:10px;color:var(--text2);margin-bottom:6px;text-align:right;letter-spacing:1px;text-transform:uppercase">This Week</div>
+
+          <div class="streak-days">
+
+            <div class="sday done">M</div><div class="sday done">T</div><div class="sday done">W</div>
+
+            <div class="sday done">T</div><div class="sday done">F</div><div class="sday done">S</div>
+
+            <div class="sday today">S</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Quest Tabs -->
+
+      <div class="filter-tabs" id="quest-tabs">
+
+        <div class="ftab active" onclick="switchQuestTab(this,'daily')">Daily</div>
+
+        <div class="ftab" onclick="switchQuestTab(this,'weekly')">Weekly</div>
+
+        <div class="ftab" onclick="switchQuestTab(this,'monthly')">Monthly</div>
+
+        <div class="ftab" onclick="switchQuestTab(this,'bonus')">Bonus</div>
+
+        <div class="ftab" onclick="switchQuestTab(this,'recovery')">Recovery</div>
+
+      </div>
+
+
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+
+        <div class="sec-title" style="margin:0" id="quest-list-title">Daily Quests</div>
+
+        <div id="quest-remaining" style="background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);color:var(--cyan);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px">4 remaining</div>
+
+      </div>
+
+
+
+      <div class="quest-list" id="quest-list"><!-- injected --></div>
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== PROFILE ======== -->
+
+    <div class="page" id="page-profile">
+
+      <!-- Hero -->
+
+      <div class="profile-hero">
+
+        <div class="ph-avatar">🗡️<div class="ph-ring"></div></div>
+
+        <div class="ph-name" id="ph-name">AJ HUNTER</div>
+
+        <div class="ph-class">Shadow Discipline Monarch</div>
+
+        <div class="titles-row">
+
+          <span class="title-chip tc-gold">⭐ Iron Mind</span>
+
+          <span class="title-chip tc-purple">⚔ Discipline</span>
+
+          <span class="title-chip tc-cyan">💻 Code Warrior</span>
+
+          <span class="title-chip tc-blue">📚 Scholar</span>
+
+          <span class="title-chip tc-red">🔥 Consistent</span>
+
+        </div>
+
+        <div class="ph-total" id="ph-level">47</div>
+
+        <div class="ph-total-lbl">Overall Level</div>
+
+      </div>
+
+
+
+      <!-- Skill Tree -->
+
+      <div class="sec-title">Skill Tree</div>
+
+      <div class="skill-list" id="skill-list"><!-- injected --></div>
+
+
+
+      <!-- Achievements -->
+
+      <div class="sec-title">Achievements</div>
+
+      <div class="ach-grid" id="ach-grid"><!-- injected --></div>
+
+
+
+      <!-- S/W Analysis -->
+
+      <div class="sec-title">Strengths & Weaknesses</div>
+
+      <div class="sw-table" id="sw-table"><!-- injected --></div>
+
+
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== STATS ======== -->
+
+    <div class="page" id="page-stats">
+
+      <div class="stats-header-card">
+
+        <div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Overall Level</div>
+
+        <div class="stats-total-num">47</div>
+
+        <div style="font-size:11px;color:var(--text2);margin-top:4px">Rank B Hunter · Class: Discipline Monarch</div>
+
+      </div>
+
+
+
+      <!-- Radar Chart -->
+
+      <div class="sec-title">Life Radar</div>
+
+      <div class="radar-wrap">
+
+        <svg class="radar-svg" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+
+          <defs>
+
+            <radialGradient id="radarGrad" cx="50%" cy="50%" r="50%">
+
+              <stop offset="0%" stop-color="rgba(45,127,249,.2)"/>
+
+              <stop offset="100%" stop-color="rgba(45,127,249,.0)"/>
+
+            </radialGradient>
+
+          </defs>
+
+          <!-- Grid rings -->
+
+          <polygon points="150,50 230,100 230,180 150,230 70,180 70,100" fill="none" stroke="#162540" stroke-width="1"/>
+
+          <polygon points="150,80 210,115 210,165 150,200 90,165 90,115" fill="none" stroke="#162540" stroke-width="1"/>
+
+          <polygon points="150,110 190,130 190,150 150,170 110,150 110,130" fill="none" stroke="#162540" stroke-width="1"/>
+
+          <!-- Axis lines -->
+
+          <line x1="150" y1="50" x2="150" y2="230" stroke="#162540" stroke-width=".5"/>
+
+          <line x1="70" y1="100" x2="230" y2="180" stroke="#162540" stroke-width=".5"/>
+
+          <line x1="230" y1="100" x2="70" y2="180" stroke="#162540" stroke-width=".5"/>
+
+          <!-- Data polygon (scaled) -->
+
+          <polygon id="radar-data"
+
+            points="150,68 220,111 219,168 150,210 81,168 81,112"
+
+            fill="rgba(45,127,249,.15)" stroke="#2d7ff9" stroke-width="1.5"/>
+
+          <!-- Labels -->
+
+          <text x="150" y="42" text-anchor="middle" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Academic</text>
+
+          <text x="246" y="98" text-anchor="start" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Career</text>
+
+          <text x="246" y="188" text-anchor="start" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Finance</text>
+
+          <text x="150" y="248" text-anchor="middle" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Social</text>
+
+          <text x="54" y="188" text-anchor="end" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Physique</text>
+
+          <text x="54" y="98" text-anchor="end" fill="#7090c0" font-size="10" font-family="'Exo 2',sans-serif">Mental</text>
+
+          <!-- Level dots -->
+
+          <circle cx="150" cy="68" r="4" fill="#2d7ff9"/>
+
+          <circle cx="220" cy="111" r="4" fill="#00e5ff"/>
+
+          <circle cx="219" cy="168" r="4" fill="#ffc400"/>
+
+          <circle cx="150" cy="210" r="4" fill="#b040ff"/>
+
+          <circle cx="81" cy="168" r="4" fill="#00e676"/>
+
+          <circle cx="81" cy="112" r="4" fill="#ff3b3b"/>
+
+        </svg>
+
+      </div>
+
+
+
+      <!-- Stat Table -->
+
+      <div class="sec-title">Category Breakdown</div>
+
+      <div class="stat-table">
+
+        <div class="st-head"><div>Category</div><div>Level</div><div>XP</div><div>Trend</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--blue)"></div>Academics</div><div class="st-val" style="color:var(--blue2)">12</div><div class="st-xp">3,450</div><div class="st-trend trend-up">↑ +2</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--cyan)"></div>Physique</div><div class="st-val" style="color:var(--cyan)">5</div><div class="st-xp">890</div><div class="st-trend trend-down">↓ -1</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--purple)"></div>Mental</div><div class="st-val" style="color:var(--purple2)">8</div><div class="st-xp">2,200</div><div class="st-trend trend-up">↑ +1</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--gold)"></div>Social</div><div class="st-val" style="color:var(--gold)">4</div><div class="st-xp">640</div><div class="st-trend trend-flat">— 0</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--green)"></div>Career</div><div class="st-val" style="color:var(--green)">9</div><div class="st-xp">2,580</div><div class="st-trend trend-up">↑ +3</div></div>
+
+        <div class="st-row"><div class="st-cat"><div class="st-dot" style="background:var(--red)"></div>Finance</div><div class="st-val" style="color:var(--red2)">9</div><div class="st-xp">2,690</div><div class="st-trend trend-up">↑ +1</div></div>
+
+      </div>
+
+
+
+      <!-- Activity Log -->
+
+      <div class="sec-title">Recent Activity</div>
+
+      <div class="timeline-card">
+
+        <div class="timeline-list">
+
+          <div class="tl-item">
+
+            <div class="tl-dot" style="background:rgba(45,127,249,.12);border-color:rgba(45,127,249,.3)">📚</div>
+
+            <div class="tl-body">
+
+              <div class="tl-title">Completed Deep Work Session (3h)</div>
+
+              <div class="tl-time">Today · 2:30 PM</div>
+
+              <div class="tl-xp">+200 XP · Academic</div>
+
+            </div>
+
+          </div>
+
+          <div class="tl-item">
+
+            <div class="tl-dot" style="background:rgba(176,64,255,.12);border-color:rgba(176,64,255,.3)">🧠</div>
+
+            <div class="tl-body">
+
+              <div class="tl-title">Morning Meditation — 20 min</div>
+
+              <div class="tl-time">Today · 7:00 AM</div>
+
+              <div class="tl-xp">+50 XP · Mental</div>
+
+            </div>
+
+          </div>
+
+          <div class="tl-item">
+
+            <div class="tl-dot" style="background:rgba(0,230,118,.12);border-color:rgba(0,230,118,.3)">💻</div>
+
+            <div class="tl-body">
+
+              <div class="tl-title">Pushed 5 commits — GitHub</div>
+
+              <div class="tl-time">Yesterday · 9:15 PM</div>
+
+              <div class="tl-xp">+120 XP · Career</div>
+
+            </div>
+
+          </div>
+
+          <div class="tl-item">
+
+            <div class="tl-dot" style="background:rgba(0,229,255,.12);border-color:rgba(0,229,255,.3)">🏃</div>
+
+            <div class="tl-body">
+
+              <div class="tl-title">Run 5.2 km</div>
+
+              <div class="tl-time">Yesterday · 6:30 AM</div>
+
+              <div class="tl-xp">+156 XP · Physique</div>
+
+            </div>
+
+          </div>
+
+          <div class="tl-item">
+
+            <div class="tl-dot" style="background:rgba(255,196,0,.1);border-color:rgba(255,196,0,.3)">📖</div>
+
+            <div class="tl-body">
+
+              <div class="tl-title">Read 35 pages — Deep Work</div>
+
+              <div class="tl-time">2 days ago · 10:00 PM</div>
+
+              <div class="tl-xp">+70 XP · Academic</div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== FOCUS TIMER ======== -->
+
+    <div class="page" id="page-focus">
+
+      <div class="sys-msg">
+
+        <div class="sys-dot"></div>
+
+        <span>FOCUS MODE: Eliminates distractions. Earn XP every completed session.</span>
+
+      </div>
+
+
+
+      <!-- Mode Selector -->
+
+      <div class="focus-mode-select" id="focus-modes">
+
+        <button class="focus-mode-btn active" onclick="setFocusMode(this,25*60,'Pomodoro','📚','50')">Pomodoro 25m</button>
+
+        <button class="focus-mode-btn" onclick="setFocusMode(this,50*60,'Deep Work','🧠','120')">Deep Work 50m</button>
+
+        <button class="focus-mode-btn" onclick="setFocusMode(this,90*60,'Flow State','⚡','200')">Flow State 90m</button>
+
+        <button class="focus-mode-btn" onclick="setFocusMode(this,5*60,'Break','🌿','10')">Break 5m</button>
+
+      </div>
+
+
+
+      <!-- Timer Ring -->
+
+      <div class="focus-ring-wrap">
+
+        <svg class="focus-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+
+          <circle cx="120" cy="120" r="108" fill="none" stroke="#0d1525" stroke-width="10"/>
+
+          <circle cx="120" cy="120" r="108" fill="none" stroke="#162540" stroke-width="1"/>
+
+          <circle id="focus-ring" cx="120" cy="120" r="108" fill="none" stroke="#2d7ff9" stroke-width="10"
+
+            stroke-linecap="round" stroke-dasharray="678.6" stroke-dashoffset="0"
+
+            transform="rotate(-90 120 120)"
+
+            style="transition:stroke-dashoffset .5s ease,stroke .3s ease;filter:drop-shadow(0 0 6px rgba(45,127,249,.5))"/>
+
+        </svg>
+
+        <div class="focus-center">
+
+          <div class="focus-time" id="focus-time">25:00</div>
+
+          <div class="focus-lbl" id="focus-lbl">Pomodoro</div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Controls -->
+
+      <div class="focus-controls">
+
+        <button class="focus-btn focus-start" id="focus-btn" onclick="toggleFocus()">START</button>
+
+        <button class="focus-btn focus-reset" onclick="resetFocus()">RESET</button>
+
+      </div>
+
+
+
+      <!-- Session Stats -->
+
+      <div class="focus-stats-row">
+
+        <div class="focus-stat">
+
+          <div class="focus-stat-val" id="focus-sessions-count">3</div>
+
+          <div class="focus-stat-lbl">Sessions Today</div>
+
+        </div>
+
+        <div class="focus-stat">
+
+          <div class="focus-stat-val" id="focus-total-time">125m</div>
+
+          <div class="focus-stat-lbl">Total Focus</div>
+
+        </div>
+
+        <div class="focus-stat">
+
+          <div class="focus-stat-val" id="focus-xp-earned" style="color:var(--cyan)">+170</div>
+
+          <div class="focus-stat-lbl">XP Earned</div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Session History -->
+
+      <div class="sec-title">Session Log</div>
+
+      <div id="focus-session-log">
+
+        <div class="focus-session-item">
+
+          <div style="font-size:18px">📚</div>
+
+          <div style="flex:1">
+
+            <div style="font-size:12px;font-weight:600">Deep Work — Physics</div>
+
+            <div style="font-size:10px;color:var(--text3)">50 min · 3:00 PM</div>
+
+          </div>
+
+          <div class="q-xp xp-blue">+120 XP</div>
+
+        </div>
+
+        <div class="focus-session-item">
+
+          <div style="font-size:18px">💻</div>
+
+          <div style="flex:1">
+
+            <div style="font-size:12px;font-weight:600">Coding Sprint</div>
+
+            <div style="font-size:10px;color:var(--text3)">50 min · 1:00 PM</div>
+
+          </div>
+
+          <div class="q-xp xp-blue">+120 XP</div>
+
+        </div>
+
+        <div class="focus-session-item">
+
+          <div style="font-size:18px">📖</div>
+
+          <div style="flex:1">
+
+            <div style="font-size:12px;font-weight:600">Reading — Atomic Habits</div>
+
+            <div style="font-size:10px;color:var(--text3)">25 min · 7:30 AM</div>
+
+          </div>
+
+          <div class="q-xp xp-blue">+50 XP</div>
+
+        </div>
+
+      </div>
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== JOURNAL ======== -->
+
+    <div class="page" id="page-journal">
+
+      <div class="sys-msg">
+
+        <div class="sys-dot"></div>
+
+        <span>REFLECTION PROTOCOL: Daily journaling grants +30 XP and Mental insight.</span>
+
+      </div>
+
+
+
+      <div class="sec-title">Today's Reflection</div>
+
+      <div class="journal-editor">
+
+        <div class="journal-date" id="journal-date">Wednesday, June 4, 2025</div>
+
+        <textarea class="journal-textarea" id="journal-text" placeholder="Reflect on today's progress. What did you accomplish? What challenged you? What will you improve tomorrow?"></textarea>
+
+        <div style="font-size:11px;color:var(--text3);margin:8px 0 4px;letter-spacing:.5px">MOOD</div>
+
+        <div class="journal-mood" id="journal-moods">
+
+          <button class="mood-btn" onclick="selectMood(this)">⚡ Energized</button>
+
+          <button class="mood-btn active" onclick="selectMood(this)">🎯 Focused</button>
+
+          <button class="mood-btn" onclick="selectMood(this)">😤 Frustrated</button>
+
+          <button class="mood-btn" onclick="selectMood(this)">😴 Tired</button>
+
+          <button class="mood-btn" onclick="selectMood(this)">🔥 Motivated</button>
+
+          <button class="mood-btn" onclick="selectMood(this)">🧘 Calm</button>
+
+        </div>
+
+        <div style="font-size:11px;color:var(--text3);margin:8px 0 4px;letter-spacing:.5px">DAILY RATINGS (1–10)</div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+
+          <div style="display:flex;align-items:center;gap:10px">
+
+            <span style="font-size:12px;color:var(--text2);width:100px">Productivity</span>
+
+            <input type="range" min="1" max="10" value="7" class="q-slider" style="flex:1" oninput="this.nextElementSibling.textContent=this.value">
+
+            <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--blue2);width:16px;text-align:right">7</span>
+
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px">
+
+            <span style="font-size:12px;color:var(--text2);width:100px">Discipline</span>
+
+            <input type="range" min="1" max="10" value="8" class="q-slider" style="flex:1" oninput="this.nextElementSibling.textContent=this.value">
+
+            <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--blue2);width:16px;text-align:right">8</span>
+
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px">
+
+            <span style="font-size:12px;color:var(--text2);width:100px">Energy</span>
+
+            <input type="range" min="1" max="10" value="6" class="q-slider" style="flex:1" oninput="this.nextElementSibling.textContent=this.value">
+
+            <span style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--blue2);width:16px;text-align:right">6</span>
+
+          </div>
+
+        </div>
+
+        <button class="journal-save" onclick="saveJournalEntry()">⚡ SAVE ENTRY (+30 XP)</button>
+
+      </div>
+
+
+
+      <div class="sec-title">Past Entries</div>
+
+      <div id="journal-entries">
+
+        <div class="journal-entry">
+
+          <div class="je-date">Tuesday, June 3</div>
+
+          <div class="je-text">Crushed the physics problem set today. Spent 3 hours in deep work mode. Social interaction still minimal — need to push harder on this front tomorrow. Gym session was solid.</div>
+
+          <div class="je-mood">🎯 Focused · P: 9/10 · D: 8/10 · E: 7/10</div>
+
+        </div>
+
+        <div class="journal-entry">
+
+          <div class="je-date">Monday, June 2</div>
+
+          <div class="je-text">Missed the morning run. Made up for it with an evening session. Completed the coding module. Reading 40 pages of Atomic Habits — genuinely transformative.</div>
+
+          <div class="je-mood">🔥 Motivated · P: 7/10 · D: 7/10 · E: 6/10</div>
+
+        </div>
+
+      </div>
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+    <!-- ======== NOTIFICATIONS ======== -->
+
+    <div class="page" id="page-notif">
+
+      <div class="sys-msg">
+
+        <div class="sys-dot"></div>
+
+        <span>DISCIPLINE PROTOCOL: Configure your accountability enforcement system.</span>
+
+      </div>
+
+
+
+      <div class="sec-title">Notification Mode</div>
+
+      <div class="notif-mode-cards">
+
+        <div class="notif-mode-card nmc-normal" onclick="selectNotifMode(this,'normal')" id="nmc-normal">
+
+          <div class="nmc-head">
+
+            <div class="nmc-name" style="color:var(--blue2)">⬡ Normal Mode</div>
+
+            <div class="nmc-radio"><div class="nmc-dot"></div></div>
+
+          </div>
+
+          <div class="nmc-desc">Friendly reminders. Supportive nudges. Ideal for building habits at a sustainable pace. Misses are tracked but not penalised harshly.</div>
+
+          <div class="nmc-chips">
+
+            <span class="nmc-chip chip-b">Friendly Reminders</span>
+
+            <span class="nmc-chip chip-b">Daily Summary</span>
+
+            <span class="nmc-chip chip-b">Streak Alerts</span>
+
+          </div>
+
+        </div>
+
+        <div class="notif-mode-card nmc-strict sel" onclick="selectNotifMode(this,'strict')" id="nmc-strict">
+
+          <div class="nmc-head">
+
+            <div class="nmc-name" style="color:var(--gold)">◈ Strict Mode</div>
+
+            <div class="nmc-radio"><div class="nmc-dot"></div></div>
+
+          </div>
+
+          <div class="nmc-desc">Persistent reminders every 15 min after missed deadlines. XP penalties enforced. Recovery quests assigned. No excuses accepted.</div>
+
+          <div class="nmc-chips">
+
+            <span class="nmc-chip chip-g">15-Min Alerts</span>
+
+            <span class="nmc-chip chip-g">XP Penalty</span>
+
+            <span class="nmc-chip chip-g">Recovery Quests</span>
+
+            <span class="nmc-chip chip-g">Streak Guard</span>
+
+          </div>
+
+        </div>
+
+        <div class="notif-mode-card nmc-cmd" onclick="selectNotifMode(this,'commander')" id="nmc-cmd">
+
+          <div class="nmc-head">
+
+            <div class="nmc-name" style="color:var(--red2)">⬢ Commander Mode</div>
+
+            <div class="nmc-radio"><div class="nmc-dot"></div></div>
+
+          </div>
+
+          <div class="nmc-desc">Maximum discipline enforcement. Full-screen alerts every hour. Temporary level penalties. Feature lock until recovery. Elite operators only. All alerts respect device permissions.</div>
+
+          <div class="nmc-chips">
+
+            <span class="nmc-chip chip-r">Full-Screen Alerts</span>
+
+            <span class="nmc-chip chip-r">Hourly Escalation</span>
+
+            <span class="nmc-chip chip-r">Level Penalty</span>
+
+            <span class="nmc-chip chip-r">Feature Lock</span>
+
+            <span class="nmc-chip chip-r">Daily Accountability</span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Escalation Levels -->
+
+      <div class="sec-title">Alert Escalation</div>
+
+      <div class="notif-level-list">
+
+        <div class="nl-item"><div class="nl-badge nb1">L1</div><div><div class="nl-name">Friendly Reminder</div><div class="nl-desc">30 minutes before deadline. Gentle nudge showing progress context and XP at stake.</div></div></div>
+
+        <div class="nl-item"><div class="nl-badge nb2">L2</div><div><div class="nl-name">Persistent Alert</div><div class="nl-desc">Every 15 min after missed deadline. XP loss warning shown. Commitment contract activated.</div></div></div>
+
+        <div class="nl-item"><div class="nl-badge nb3">L3</div><div><div class="nl-name">Urgent Notification</div><div class="nl-desc">Full-screen alert every hour. Recovery quest automatically assigned. Streak at risk indicator.</div></div></div>
+
+        <div class="nl-item"><div class="nl-badge nb4">L4</div><div><div class="nl-name">Daily Accountability Report</div><div class="nl-desc">Comprehensive summary of missed quests, total XP lost, streak damage, and consequences applied.</div></div></div>
+
+        <div class="nl-item"><div class="nl-badge nb5">L5</div><div><div class="nl-name">Recovery Mode Active</div><div class="nl-desc">Extra quests assigned before progress can be restored. Progress locked until recovery complete.</div></div></div>
+
+      </div>
+
+
+
+      <!-- Smart Toggles -->
+
+      <div class="sec-title">Smart Alerts</div>
+
+      <div class="toggle-list">
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Morning Mission Briefing</div><div class="toggle-sub">Daily quests dispatched at 6:00 AM</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Evening Performance Review</div><div class="toggle-sub">Progress summary at 9:30 PM</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Streak Protection Alert</div><div class="toggle-sub">Alert when streak is at risk</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">XP Milestone Celebration</div><div class="toggle-sub">Notify on level-ups and major gains</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Weekly Progress Report</div><div class="toggle-sub">Every Sunday at 8:00 PM</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Monthly Performance Analysis</div><div class="toggle-sub">Last day of each month</div></div><div class="toggle-sw" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">AI Mentor Check-in</div><div class="toggle-sub">Weekly AI analysis and recommendations</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+        <div class="toggle-row"><div class="toggle-info"><div class="toggle-lbl">Laziness Detector</div><div class="toggle-sub">Alert after 2+ consecutive missed quests</div></div><div class="toggle-sw on" onclick="this.classList.toggle('on')"></div></div>
+
+      </div>
+
+
+
+      <!-- Daily Accountability Report -->
+
+      <div class="sec-title">Yesterday's Report</div>
+
+      <div class="acc-report">
+
+        <div class="acc-head">📊 Accountability Report — Yesterday</div>
+
+        <div class="acc-row"><span>Quests Completed</span><span class="av-pos">4 / 6 (67%)</span></div>
+
+        <div class="acc-row"><span>Total XP Earned</span><span class="av-pos">+340 XP</span></div>
+
+        <div class="acc-row"><span>XP Lost (missed quests)</span><span class="av-neg">−120 XP</span></div>
+
+        <div class="acc-row"><span>Streak Status</span><span class="av-pos">✓ Maintained (7 days)</span></div>
+
+        <div class="acc-row"><span>Recovery Quests Assigned</span><span class="av-warn">2 quests pending</span></div>
+
+        <div class="acc-row"><span>Laziness Penalty</span><span style="color:var(--text3)">— Not applied</span></div>
+
+        <div class="acc-row"><span>Overall Discipline Score</span><span class="av-warn">C+ (67%)</span></div>
+
+      </div>
+
+
+
+      <div class="spacer"></div>
+
+    </div>
+
+
+
+  </div><!-- /pages -->
+
+
+
+  <!-- BOTTOM NAV -->
+
+  <div class="bottom-nav">
+
+    <button class="bnav active" id="bnav-dash" onclick="switchPage('dash')"><span class="bnav-icon">⚔️</span><span class="bnav-label">Command</span></button>
+
+    <button class="bnav" id="bnav-quests" onclick="switchPage('quests')"><span class="bnav-icon">📋</span><span class="bnav-label">Quests</span></button>
+
+    <button class="bnav" id="bnav-profile" onclick="switchPage('profile')"><span class="bnav-icon">👤</span><span class="bnav-label">Profile</span></button>
+
+    <button class="bnav" id="bnav-stats" onclick="switchPage('stats')"><span class="bnav-icon">📊</span><span class="bnav-label">Stats</span></button>
+
+    <button class="bnav" id="bnav-focus" onclick="switchPage('focus')"><span class="bnav-icon">⏱️</span><span class="bnav-label">Focus</span></button>
+
+    <button class="bnav" id="bnav-journal" onclick="switchPage('journal')"><span class="bnav-icon">📓</span><span class="bnav-label">Journal</span></button>
+
+    <button class="bnav" id="bnav-notif" onclick="switchPage('notif')"><span class="bnav-icon">🔔</span><span class="bnav-label">Alerts</span></button>
+
+  </div>
+
+
+
+</div><!-- /app -->
+
+
+
+<script>
+
+/* ============================================================
+
+   ARISE — COMPLETE JAVASCRIPT ENGINE
+
+   ============================================================ */
+
+
+
+// ===== STATE =====
+
+const STATE = {
+
+  xp: 12450, xpToNext: 15000,
+
+  level: 47, rank: 'B',
+
+  streak: 7,
+
+  todayXP: 340,
+
+  questsCompleted: 1,
+
+  totalQuests: 5,
+
+  notifMode: 'strict',
+
+  focusRunning: false,
+
+  focusTime: 25*60,
+
+  focusMaxTime: 25*60,
+
+  focusMode: 'Pomodoro',
+
+  focusXPReward: 50,
+
+  focusSessionsToday: 3,
+
+  focusTotalMin: 125,
+
+  focusXPToday: 170,
+
+  focusInterval: null,
+
+  journalSaved: false,
+
+  journalEntries: [],
+
+  assessAnswers: {},
+
+  assessPage: 0,
+
+  categories: [
+
+    { id:'academic', name:'Academics', icon:'📚', color:'blue',  colorVar:'var(--blue)',  level:12, maxLevel:20, xp:3450, pct:70 },
+
+    { id:'physique', name:'Physique',  icon:'💪', color:'cyan',  colorVar:'var(--cyan)',  level:5,  maxLevel:20, xp:890,  pct:35 },
+
+    { id:'mental',   name:'Mental',    icon:'🧠', color:'purple',colorVar:'var(--purple)',level:8,  maxLevel:20, xp:2200, pct:55 },
+
+    { id:'social',   name:'Social',    icon:'🤝', color:'gold',  colorVar:'var(--gold)',  level:4,  maxLevel:20, xp:640,  pct:25 },
+
+    { id:'career',   name:'Career',    icon:'💻', color:'green', colorVar:'var(--green)', level:9,  maxLevel:20, xp:2580, pct:62 },
+
+    { id:'finance',  name:'Finance',   icon:'💰', color:'red',   colorVar:'var(--red)',   level:9,  maxLevel:20, xp:2690, pct:60 },
+
+  ],
+
+  quests: {
+
+    daily: [
+
+      { id:'d1', title:'Deep Work Session (3h)', desc:'Use focus timer. No phone. Log completion.', xp:200, xpClass:'xp-gold', type:'qi-urgent', diff:'diff-h', deadline:'⏰ Tonight', done:false },
+
+      { id:'d2', title:'Read 20 Pages', desc:'Non-fiction or academic material. Track pages.', xp:40, xpClass:'xp-blue', type:'qi-normal', diff:'diff-e', deadline:'📖 Before bed', done:false },
+
+      { id:'d3', title:'Run 3 km', desc:'Morning or evening run. GPS tracked.', xp:90, xpClass:'xp-blue', type:'qi-normal', diff:'diff-m', streak:'🔥 7-day bonus', done:false },
+
+      { id:'d4', title:'Sleep Before 11 PM', desc:'Log sleep time. Recovery is performance.', xp:60, xpClass:'xp-blue', type:'qi-normal', diff:'diff-e', deadline:'🌙 Tonight', done:false },
+
+      { id:'d5', title:'Morning Meditation (20 min)', desc:'Focus on breathing. Log in app.', xp:50, xpClass:'xp-blue', type:'qi-normal', diff:'diff-e', deadline:'✓ Done', done:true },
+
+      { id:'d6', title:'Talk to 1 New Person', desc:'Social challenge. Introduce yourself.', xp:80, xpClass:'xp-blue', type:'qi-normal', diff:'diff-m', done:false },
+
+    ],
+
+    weekly: [
+
+      { id:'w1', title:'Study 15 Hours Total', desc:'Cumulative study time across the week.', xp:500, xpClass:'xp-gold', type:'qi-weekly', diff:'diff-h', deadline:'Sun 11 PM', done:false },
+
+      { id:'w2', title:'Complete 5 Workouts', desc:'Any physical training counts.', xp:400, xpClass:'xp-purple', type:'qi-weekly', diff:'diff-m', done:false },
+
+      { id:'w3', title:'Push Code 5 Days', desc:'Maintain GitHub streak for the week.', xp:300, xpClass:'xp-purple', type:'qi-weekly', diff:'diff-m', done:false },
+
+      { id:'w4', title:'Read 1 Full Book Chapter', desc:'Non-fiction knowledge acquisition.', xp:200, xpClass:'xp-blue', type:'qi-weekly', diff:'diff-e', done:false },
+
+      { id:'w5', title:'Network with 3 People', desc:'Meaningful professional conversations.', xp:350, xpClass:'xp-purple', type:'qi-weekly', diff:'diff-h', done:false },
+
+    ],
+
+    monthly: [
+
+      { id:'m1', title:'Maintain 25-Day Streak', desc:'Complete at least 3 quests per day for 25 days.', xp:2000, xpClass:'xp-gold', type:'qi-monthly', diff:'diff-h', deadline:'End of month', done:false },
+
+      { id:'m2', title:'Read 2 Books', desc:'Non-fiction only. Log summaries.', xp:800, xpClass:'xp-gold', type:'qi-monthly', diff:'diff-m', done:false },
+
+      { id:'m3', title:'Finish 1 Online Course', desc:'Any certified course in your field.', xp:1200, xpClass:'xp-gold', type:'qi-monthly', diff:'diff-h', done:false },
+
+    ],
+
+    bonus: [
+
+      { id:'b1', title:'10,000 Steps in a Day', desc:'Walk 10,000 steps. Use phone pedometer.', xp:150, xpClass:'xp-blue', type:'qi-bonus', diff:'diff-m', done:false },
+
+      { id:'b2', title:'Cold Shower Challenge', desc:'3-minute cold shower. Mental toughness.', xp:100, xpClass:'xp-blue', type:'qi-bonus', diff:'diff-e', done:false },
+
+      { id:'b3', title:'No Social Media Day', desc:'Dopamine detox — 24 hours offline.', xp:200, xpClass:'xp-gold', type:'qi-bonus', diff:'diff-h', done:false },
+
+      { id:'b4', title:'Write a 500-Word Essay', desc:'On any topic that matters to you.', xp:120, xpClass:'xp-blue', type:'qi-bonus', diff:'diff-m', done:false },
+
+    ],
+
+    recovery: [
+
+      { id:'r1', title:'RECOVERY: 2x Study Session', desc:'Make up for yesterday\'s missed session. No skipping.', xp:0, xpClass:'xp-red', type:'qi-recovery', diff:'diff-h', deadline:'⚠ Must complete', done:false },
+
+      { id:'r2', title:'RECOVERY: 5 km Run', desc:'Compensate for missed workout. Extra distance.', xp:0, xpClass:'xp-red', type:'qi-recovery', diff:'diff-h', deadline:'⚠ Must complete', done:false },
+
+    ]
+
+  }
+
+};
+
+
+
+const STORAGE_KEY = 'arise_state_v1';
+
+function getSavableState() {
+
+  return {
+
+    xp: STATE.xp,
+    xpToNext: STATE.xpToNext,
+    level: STATE.level,
+    rank: STATE.rank,
+    streak: STATE.streak,
+    todayXP: STATE.todayXP,
+    questsCompleted: STATE.questsCompleted,
+    totalQuests: STATE.totalQuests,
+    notifMode: STATE.notifMode,
+    focusTime: STATE.focusTime,
+    focusMaxTime: STATE.focusMaxTime,
+    focusMode: STATE.focusMode,
+    focusXPReward: STATE.focusXPReward,
+    focusSessionsToday: STATE.focusSessionsToday,
+    focusTotalMin: STATE.focusTotalMin,
+    focusXPToday: STATE.focusXPToday,
+    journalSaved: STATE.journalSaved,
+    journalEntries: STATE.journalEntries,
+    assessAnswers: STATE.assessAnswers,
+    assessPage: STATE.assessPage,
+    categories: STATE.categories,
+    quests: STATE.quests
+
+  };
+
+}
+
+function saveState() {
+
+  try {
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getSavableState()));
+
+  } catch (err) {
+
+    console.warn('Unable to save ARISE state', err);
+
+  }
+
+}
+
+function loadState() {
+
+  try {
+
+    const raw = localStorage.getItem(STORAGE_KEY);
+
+    if (!raw) return;
+
+    const saved = JSON.parse(raw);
+
+    Object.assign(STATE, saved);
+
+    STATE.focusRunning = false;
+    STATE.focusInterval = null;
+
+  } catch (err) {
+
+    console.warn('Unable to load ARISE state', err);
+
+  }
+
+}
+
+function escapeHTML(value) {
+
+  return String(value)
+
+    .replace(/&/g, '&amp;')
+
+    .replace(/</g, '&lt;')
+
+    .replace(/>/g, '&gt;')
+
+    .replace(/"/g, '&quot;')
+
+    .replace(/'/g, '&#039;');
+
+}
+
+
+
+const ASSESSMENT_QUESTIONS = [
+
+  {cat:'Personal',color:'rgba(45,127,249,.12)',textColor:'var(--blue2)',q:'What is your age?',type:'slider',min:14,max:35,val:20,unit:'years'},
+
+  {cat:'Personal',color:'rgba(45,127,249,.12)',textColor:'var(--blue2)',q:'How tall are you?',type:'slider',min:140,max:210,val:172,unit:'cm'},
+
+  {cat:'Personal',color:'rgba(45,127,249,.12)',textColor:'var(--blue2)',q:'What is your current weight?',type:'slider',min:40,max:120,val:70,unit:'kg'},
+
+  {cat:'Academics',color:'rgba(0,229,255,.1)',textColor:'var(--cyan)',q:'What is your current GPA / percentage?',type:'slider',min:0,max:10,val:7,unit:'/10'},
+
+  {cat:'Academics',color:'rgba(0,229,255,.1)',textColor:'var(--cyan)',q:'How many hours do you study per day on average?',type:'options',opts:['Less than 1 hour','1–2 hours','2–4 hours','4–6 hours','More than 6 hours']},
+
+  {cat:'Academics',color:'rgba(0,229,255,.1)',textColor:'var(--cyan)',q:'How consistently do you complete your assignments?',type:'options',opts:['Almost never','Sometimes','Usually','Almost always','Always — zero exceptions']},
+
+  {cat:'Academics',color:'rgba(0,229,255,.1)',textColor:'var(--cyan)',q:'How many books have you read in the last 6 months?',type:'options',opts:['None','1–2','3–5','6–10','More than 10']},
+
+  {cat:'Academics',color:'rgba(0,229,255,.1)',textColor:'var(--cyan)',q:'Do you have any active personal projects or side-learning?',type:'options',opts:['No projects at all','Thinking about starting','1 active project','2–3 active projects','Multiple running at once']},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How often do you work out per week?',type:'options',opts:['Never','1–2 days','3–4 days','5–6 days','Every day']},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How far can you currently run without stopping?',type:'options',opts:['Less than 1 km','1–3 km','3–5 km','5–10 km','More than 10 km']},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How many pushups can you do in a single set?',type:'options',opts:['0–5','6–15','16–30','31–50','More than 50']},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'Rate your current body fitness honestly',type:'slider',min:1,max:10,val:5,unit:'/10'},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How is your sleep quality on average?',type:'options',opts:['Terrible — under 5 hours','Poor — 5–6 hours','Average — 6–7 hours','Good — 7–8 hours','Excellent — 8+ hours']},
+
+  {cat:'Physique',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How healthy is your diet?',type:'options',opts:['Very unhealthy','Mostly unhealthy','Mixed','Mostly healthy','Very disciplined']},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'How often do you meditate or practice mindfulness?',type:'options',opts:['Never','Occasionally','1–3 times a week','Daily','Multiple times daily']},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'Can you do deep work for 2+ hours without distraction?',type:'options',opts:['Impossible','Very difficult','With effort','Usually yes','Easily — daily practice']},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'Rate your emotional control in stressful situations',type:'slider',min:1,max:10,val:5,unit:'/10'},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'Do you journal regularly?',type:'options',opts:['Never','Rarely','Sometimes','Often','Daily habit']},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'How would you rate your current stress levels?',type:'options',opts:['Extremely high','High','Moderate','Low','Very low / calm']},
+
+  {cat:'Mental',color:'rgba(176,64,255,.1)',textColor:'var(--purple2)',q:'How often do you use your phone mindlessly?',type:'options',opts:['Constantly','Several hours/day','1–2 hours/day','Under 1 hour','Minimal — controlled use']},
+
+  {cat:'Social',color:'rgba(255,196,0,.08)',textColor:'var(--gold)',q:'How confident are you in social situations?',type:'slider',min:1,max:10,val:5,unit:'/10'},
+
+  {cat:'Social',color:'rgba(255,196,0,.08)',textColor:'var(--gold)',q:'How often do you initiate conversations with new people?',type:'options',opts:['Never','Rarely','Sometimes','Often','Constantly — thrive on it']},
+
+  {cat:'Social',color:'rgba(255,196,0,.08)',textColor:'var(--gold)',q:'Have you done any public speaking?',type:'options',opts:['Never','Once or twice','A few times','Regularly','Extensively']},
+
+  {cat:'Social',color:'rgba(255,196,0,.08)',textColor:'var(--gold)',q:'How strong is your professional network?',type:'options',opts:['None','Very small','Small but growing','Medium','Large and active']},
+
+  {cat:'Career',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'Rate your coding / technical skills',type:'slider',min:1,max:10,val:5,unit:'/10'},
+
+  {cat:'Career',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'Do you have a portfolio or GitHub profile?',type:'options',opts:['Nothing yet','Started but empty','A few projects','Active portfolio','Strong — multiple strong projects']},
+
+  {cat:'Career',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'Have you done any internships or work experience?',type:'options',opts:['None','1 internship','2–3 experiences','Multiple','Extensive professional experience']},
+
+  {cat:'Career',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'How prepared are you for job interviews?',type:'options',opts:['Not at all','Slightly','Somewhat','Well prepared','Highly prepared']},
+
+  {cat:'Career',color:'rgba(0,230,118,.08)',textColor:'var(--green)',q:'Do you have any professional certifications?',type:'options',opts:['None','1 certification','2–3 certifications','4–6 certifications','Many certifications']},
+
+  {cat:'Finance',color:'rgba(255,152,0,.08)',textColor:'var(--amber)',q:'Do you save money regularly?',type:'options',opts:['Never save','Rarely','Sometimes','Consistently','Aggressively — fixed %']},
+
+  {cat:'Finance',color:'rgba(255,152,0,.08)',textColor:'var(--amber)',q:'Do you track your expenses?',type:'options',opts:['Never','Rarely','Sometimes','Usually','Every single transaction']},
+
+  {cat:'Finance',color:'rgba(255,152,0,.08)',textColor:'var(--amber)',q:'Have you started investing?',type:'options',opts:['No knowledge','Learned basics','Paper trading','Small investments','Active portfolio']},
+
+  {cat:'Finance',color:'rgba(255,152,0,.08)',textColor:'var(--amber)',q:'Rate your financial literacy',type:'slider',min:1,max:10,val:4,unit:'/10'},
+
+  {cat:'Finance',color:'rgba(255,152,0,.08)',textColor:'var(--amber)',q:'Do you have a monthly budget?',type:'options',opts:['No budget at all','Mental estimate','Basic written budget','Detailed budget','Automated + reviewed']},
+
+  {cat:'Discipline',color:'rgba(255,59,59,.08)',textColor:'var(--red2)',q:'How disciplined are you with your daily routine?',type:'slider',min:1,max:10,val:5,unit:'/10'},
+
+  {cat:'Discipline',color:'rgba(255,59,59,.08)',textColor:'var(--red2)',q:'How often do you procrastinate on important tasks?',type:'options',opts:['Almost always','Often','Sometimes','Rarely','Almost never']},
+
+  {cat:'Discipline',color:'rgba(255,59,59,.08)',textColor:'var(--red2)',q:'When you set a goal, how often do you follow through?',type:'options',opts:['Almost never','Sometimes','About half','Usually','Almost always']},
+
+  {cat:'Discipline',color:'rgba(255,59,59,.08)',textColor:'var(--red2)',q:'How do you respond to setbacks and failures?',type:'options',opts:['Give up easily','Discouraged long-term','Recover slowly','Recover quickly','Use it as fuel']},
+
+  {cat:'Discipline',color:'rgba(255,59,59,.08)',textColor:'var(--red2)',q:'Do you wake up at a consistent time each day?',type:'options',opts:['No schedule','Varies wildly','Somewhat consistent','Usually consistent','Same time every day']},
+
+  {cat:'Lifestyle',color:'rgba(0,229,255,.06)',textColor:'var(--cyan)',q:'How many hours per day do you spend on entertainment?',type:'options',opts:['6+ hours','4–6 hours','2–4 hours','1–2 hours','Under 1 hour']},
+
+  {cat:'Lifestyle',color:'rgba(0,229,255,.06)',textColor:'var(--cyan)',q:'Do you have a morning routine?',type:'options',opts:['No routine','Random habits','Loose routine','Structured routine','Disciplined 90-min routine']},
+
+  {cat:'Lifestyle',color:'rgba(0,229,255,.06)',textColor:'var(--cyan)',q:'How clear are your long-term goals?',type:'options',opts:['No goals','Vague ideas','Some direction','Clear goals','Crystal clear + action plan']},
+
+  {cat:'Lifestyle',color:'rgba(0,229,255,.06)',textColor:'var(--cyan)',q:'Do you have any toxic habits you want to eliminate?',type:'options',opts:['Many serious habits','Several habits','A few habits','1–2 minor habits','None']},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'How would you rate your overall growth mindset?',type:'slider',min:1,max:10,val:6,unit:'/10'},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'Why are you using this app? What drives you?',type:'options',opts:['Boredom / curiosity','Want to improve one area','Want to be more productive','Want to completely transform','Want to become the best version of myself']},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'How willing are you to embrace discomfort for growth?',type:'options',opts:['Avoid discomfort','Tolerate minimal','Moderately willing','Very willing','Actively seek discomfort']},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'Do you compare yourself to others or focus on personal growth?',type:'options',opts:['Mostly compare myself','Often compare','50/50','Mostly focus inward','100% personal growth mindset']},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'What is your biggest weakness right now?',type:'options',opts:['Laziness / procrastination','Lack of discipline','Social anxiety','Physical health','Financial ignorance']},
+
+  {cat:'Mindset',color:'rgba(176,64,255,.08)',textColor:'var(--purple2)',q:'Which area do you most want to level up FIRST?',type:'options',opts:['Academics / Intelligence','Physique / Health','Mental strength','Social skills','Career / Skills','Finance']},
+
+  {cat:'Final',color:'rgba(0,229,255,.06)',textColor:'var(--cyan)',q:'Choose your Notification Mode',type:'options',opts:['Normal — Friendly nudges','Strict — No excuses','Commander — Maximum discipline']},
+
+];
+
+
+
+// ===== LOADING =====
+
+window.addEventListener('load', () => {
+
+  loadState();
+
+  const stored = localStorage.getItem('arise_completed');
+
+  setTimeout(() => {
+
+    document.getElementById('loading').style.opacity = '0';
+
+    document.getElementById('loading').style.transition = 'opacity .5s';
+
+    setTimeout(() => {
+
+      document.getElementById('loading').style.display = 'none';
+
+      if (stored) {
+
+        showMainApp();
+
+      } else {
+
+        showAssessment();
+
+      }
+
+    }, 500);
+
+  }, 2200);
+
+});
+
+
+
+function showAssessment() {
+
+  document.getElementById('assessment').style.display = 'block';
+
+  renderQuestion(0);
+
+}
+
+
+
+function showMainApp() {
+
+  document.getElementById('assessment').style.display = 'none';
+
+  document.getElementById('result-screen').style.display = 'none';
+
+  document.getElementById('main-app').style.display = 'flex';
+
+  initApp();
+
+}
+
+
+
+function launchApp() {
+
+  localStorage.setItem('arise_completed', '1');
+
+  saveState();
+
+  document.getElementById('result-screen').style.display = 'none';
+
+  document.getElementById('main-app').style.display = 'flex';
+
+  initApp();
+
+}
+
+
+
+// ===== ASSESSMENT =====
+
+function renderQuestion(idx) {
+
+  const q = ASSESSMENT_QUESTIONS[idx];
+
+  const total = ASSESSMENT_QUESTIONS.length;
+
+  document.getElementById('assess-bar').style.width = ((idx/total)*100)+'%';
+
+
+
+  let html = `<div class="assess-question active">
+
+    <div class="q-num">Question ${idx+1} of ${total}</div>
+
+    <div class="q-category" style="background:${q.color};color:${q.textColor}">${q.cat}</div>
+
+    <div class="q-text">${q.q}</div>`;
+
+
+
+  if (q.type === 'options') {
+
+    html += `<div class="q-options">`;
+
+    q.opts.forEach((o, i) => {
+
+      const sel = STATE.assessAnswers[idx] === i ? 'selected' : '';
+
+      html += `<div class="q-option ${sel}" onclick="selectOption(this,${idx},${i})">
+
+        <div class="q-option-dot"></div>${o}</div>`;
+
+    });
+
+    html += `</div>`;
+
+  } else if (q.type === 'slider') {
+
+    const val = STATE.assessAnswers[idx] !== undefined ? STATE.assessAnswers[idx] : q.val;
+
+    html += `<div class="q-slider-wrap">
+
+      <div class="q-value-display" id="qslider-val">${val}${q.unit}</div>
+
+      <input type="range" class="q-slider" min="${q.min}" max="${q.max}" value="${val}"
+
+        oninput="document.getElementById('qslider-val').textContent=this.value+'${q.unit}';STATE.assessAnswers[${idx}]=parseInt(this.value)">
+
+      <div class="q-slider-labels"><span>${q.min}${q.unit}</span><span>${q.max}${q.unit}</span></div>
+
+    </div>`;
+
+  } else {
+
+    html += `<input type="text" class="q-input" placeholder="Type your answer..." 
+
+      value="${STATE.assessAnswers[idx]||''}"
+
+      oninput="STATE.assessAnswers[${idx}]=this.value">`;
+
+  }
+
+
+
+  const isLast = idx === total - 1;
+
+  html += `<div class="assess-nav">
+
+    ${idx > 0 ? `<button class="btn-prev" onclick="renderQuestion(${idx-1})">← Back</button>` : '<div></div>'}
+
+    <button class="btn-next" onclick="${isLast ? 'finishAssessment()' : `renderQuestion(${idx+1})`}">
+
+      ${isLast ? '⚡ ANALYZE' : 'Next →'}
+
+    </button>
+
+  </div></div>`;
+
+
+
+  document.getElementById('assess-body').innerHTML = html;
+
+  STATE.assessPage = idx;
+
+}
+
+
+
+function selectOption(el, qIdx, optIdx) {
+
+  el.closest('.q-options').querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+
+  el.classList.add('selected');
+
+  STATE.assessAnswers[qIdx] = optIdx;
+
+  el.querySelector('.q-option-dot').style.background = 'var(--blue2)';
+
+}
+
+
+
+function finishAssessment() {
+
+  // Calculate levels from answers
+
+  const a = STATE.assessAnswers;
+
+  const calc = (indices, scale=5) => {
+
+    let sum = 0, count = 0;
+
+    indices.forEach(i => { if(a[i] !== undefined){ sum += (typeof a[i]==='number' ? a[i] : a[i]); count++; } });
+
+    return count ? Math.max(1, Math.min(20, Math.round((sum/count) * (20/scale)))) : 8;
+
+  };
+
+
+
+  const levels = {
+
+    academic: calc([3,4,5,6,7], 4),
+
+    physique: calc([8,9,10,11,12,13], 4),
+
+    mental: calc([14,15,16,17,18,19], 4),
+
+    social: calc([20,21,22,23], 4),
+
+    career: calc([24,25,26,27,28], 4),
+
+    finance: calc([29,30,31,32,33], 4),
+
+  };
+
+
+
+  STATE.categories.forEach(c => { if(levels[c.id]) c.level = levels[c.id]; });
+
+
+
+  const total = Object.values(levels).reduce((a,b)=>a+b, 0);
+
+  const rank = total > 80 ? 'A' : total > 60 ? 'B' : total > 40 ? 'C' : total > 20 ? 'D' : 'E';
+
+  STATE.level = Math.round(total/6);
+
+  STATE.rank = rank;
+
+  saveState();
+
+
+
+  document.getElementById('assessment').style.display = 'none';
+
+  showResultScreen(levels, total, rank);
+
+}
+
+
+
+function showResultScreen(levels, total, rank) {
+
+  const rs = document.getElementById('result-screen');
+
+  rs.style.display = 'block';
+
+
+
+  document.getElementById('result-total').textContent = Math.round(total/6);
+
+
+
+  const cats = [
+
+    {name:'Academics',icon:'📚',color:'var(--blue)',  key:'academic'},
+
+    {name:'Physique', icon:'💪',color:'var(--cyan)',  key:'physique'},
+
+    {name:'Mental',   icon:'🧠',color:'var(--purple)',key:'mental'},
+
+    {name:'Social',   icon:'🤝',color:'var(--gold)',  key:'social'},
+
+    {name:'Career',   icon:'💻',color:'var(--green)', key:'career'},
+
+    {name:'Finance',  icon:'💰',color:'var(--red)',   key:'finance'},
+
+  ];
+
+
+
+  let gridHtml = '';
+
+  cats.forEach(c => {
+
+    const lvl = levels[c.key] || 8;
+
+    const pct = (lvl/20)*100;
+
+    gridHtml += `<div class="result-cat">
+
+      <div class="result-cat-icon">${c.icon}</div>
+
+      <div class="result-cat-name">${c.name}</div>
+
+      <div class="result-cat-lvl" style="color:${c.color}">${lvl}</div>
+
+      <div class="result-cat-bar"><div class="result-cat-bar-fill" style="width:${pct}%;background:${c.color}"></div></div>
+
+    </div>`;
+
+  });
+
+  document.getElementById('result-grid').innerHTML = gridHtml;
+
+
+
+  const sorted = cats.map(c => ({...c, lvl: levels[c.key]||8})).sort((a,b)=>b.lvl-a.lvl);
+
+  let rowsHtml = '';
+
+  sorted.forEach(c => {
+
+    const tag = c.lvl >= 14 ? 'tag-strong' : c.lvl >= 8 ? 'tag-grow' : 'tag-weak';
+
+    const label = c.lvl >= 14 ? '★ Strong' : c.lvl >= 8 ? '◆ Growing' : '▼ Needs Work';
+
+    rowsHtml += `<div class="analysis-row">
+
+      <div class="analysis-icon">${c.icon}</div>
+
+      <div class="analysis-text">${c.name} — Level ${c.lvl}</div>
+
+      <div class="analysis-tag ${tag}">${label}</div>
+
+    </div>`;
+
+  });
+
+  document.getElementById('result-rows').innerHTML = rowsHtml;
+
+}
+
+
+
+// ===== MAIN APP INIT =====
+
+function initApp() {
+
+  renderDashCats();
+
+  renderDashMissions();
+
+  renderQuestList('daily');
+
+  renderSkillList();
+
+  renderAchievements();
+
+  renderSWTable();
+
+  renderJournalEntries();
+
+  syncNotifModeUI();
+
+  renderFocusStats();
+
+  updateDashboard();
+
+  updateNavXP();
+
+  setFocusDisplay();
+
+  document.getElementById('journal-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+}
+
+
+
+// ===== DASHBOARD =====
+
+function renderDashCats() {
+
+  const grid = document.getElementById('dash-cats');
+
+  grid.innerHTML = STATE.categories.map(c => `
+
+    <div class="cat-card cat-${c.color}" onclick="showToast('${c.icon} ${c.name}','Level ${c.level} · ${c.xp} XP earned')">
+
+      <div class="cat-icon">${c.icon}</div>
+
+      <div class="cat-name">${c.name}</div>
+
+      <div class="cat-lvl" style="color:${c.colorVar}">${c.level}</div>
+
+      <div class="cat-sub">${c.xp} XP</div>
+
+      <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${c.pct}%;background:${c.colorVar}"></div></div>
+
+    </div>`).join('');
+
+}
+
+
+
+function renderDashMissions() {
+
+  const daily = STATE.quests.daily.slice(0,5);
+
+  const done = daily.filter(q=>q.done).length;
+
+  const pct = Math.round((done/daily.length)*100);
+
+  document.getElementById('today-pct').textContent = pct + '%';
+
+  document.getElementById('today-bar').style.width = pct + '%';
+
+
+
+  document.getElementById('dash-missions').innerHTML = daily.map(q => `
+
+    <div class="mission-item ${q.done?'done':''}" onclick="completeDashMission(this,'${q.id}',${q.xp})">
+
+      <div class="mission-check ${q.done?'checked':''}">${q.done?'✓':''}</div>
+
+      <div class="mission-name ${q.done?'crossed':''}">${q.title}</div>
+
+      <div class="mission-xp ${q.xpClass==='xp-gold'?'gold':''}">${q.xp} XP</div>
+
+    </div>`).join('');
+
+}
+
+
+
+function completeDashMission(el, id, xp) {
+
+  const q = findQuest(id);
+
+  if (!q || q.done) return;
+
+  q.done = true;
+
+  saveState();
+
+  gainXP(xp, el);
+
+  renderDashMissions();
+
+  renderQuestList(document.querySelector('#quest-tabs .ftab.active')?.textContent?.toLowerCase() || 'daily');
+
+  const pct = Math.round((STATE.quests.daily.filter(x=>x.done).length / STATE.quests.daily.length)*100);
+
+  if (pct >= 100) setTimeout(() => showLevelUp(), 500);
+
+}
+
+
+
+// ===== QUESTS =====
+
+let currentQuestTab = 'daily';
+
+function switchQuestTab(el, tab) {
+
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+
+  el.classList.add('active');
+
+  currentQuestTab = tab;
+
+  renderQuestList(tab);
+
+  const titles = {daily:'Daily Quests',weekly:'Weekly Quests',monthly:'Monthly Quests',bonus:'Bonus Quests',recovery:'Recovery Quests'};
+
+  document.getElementById('quest-list-title').textContent = titles[tab] || 'Quests';
+
+}
+
+
+
+function renderQuestList(tab) {
+
+  const quests = STATE.quests[tab] || [];
+
+  const remaining = quests.filter(q=>!q.done).length;
+
+  document.getElementById('quest-remaining').textContent = `${remaining} remaining`;
+
+
+
+  document.getElementById('quest-list').innerHTML = quests.map(q => `
+
+    <div class="quest-item ${q.type} ${q.done?'done':''}" onclick="completeQuest('${q.id}',this)">
+
+      <div class="q-chk ${q.done?'done':''}">${q.done?'✓':''}</div>
+
+      <div class="q-body">
+
+        <div class="q-title" style="${q.done?'text-decoration:line-through;color:var(--text3)':''}">${q.title}</div>
+
+        <div class="q-desc">${q.desc}</div>
+
+        <div class="q-meta">
+
+          <span class="q-xp ${q.xpClass}">${q.xp>0?'+':q.xp===0?'Required: ':''}${q.xp>0?q.xp+' XP':'Complete for recovery'}</span>
+
+          ${q.diff?`<span class="q-diff ${q.diff}">${q.diff==='diff-e'?'Easy':q.diff==='diff-m'?'Medium':'Hard'}</span>`:''}
+
+          ${q.deadline?`<span class="q-deadline">${q.deadline}</span>`:''}
+
+          ${q.streak?`<span class="q-streak">${q.streak}</span>`:''}
+
+        </div>
+
+      </div>
+
+    </div>`).join('');
+
+}
+
+
+
+function completeQuest(id, el) {
+
+  const q = findQuest(id);
+
+  if (!q || q.done) return;
+
+  q.done = true;
+
+  saveState();
+
+  if (q.xp > 0) gainXP(q.xp, el);
+
+  renderQuestList(currentQuestTab);
+
+  renderDashMissions();
+
+  showToast('⚡ Quest Complete!', q.xp>0 ? `+${q.xp} XP earned` : 'Recovery quest cleared!');
+
+}
+
+
+
+function findQuest(id) {
+
+  for (const tab of Object.values(STATE.quests)) {
+
+    const q = tab.find(x => x.id === id);
+
+    if (q) return q;
+
+  }
+
+  return null;
+
+}
+
+
+
+// ===== PROFILE =====
+
+function renderSkillList() {
+
+  const colors = ['var(--blue)','var(--cyan)','var(--purple)','var(--gold)','var(--green)','var(--red)'];
+
+  document.getElementById('skill-list').innerHTML = STATE.categories.map((c,i) => `
+
+    <div class="skill-row">
+
+      <div class="sk-icon">${c.icon}</div>
+
+      <div class="sk-info">
+
+        <div class="sk-name">${c.name}</div>
+
+        <div class="sk-bar"><div class="sk-bar-fill" style="width:${c.pct}%;background:${colors[i]}"></div></div>
+
+      </div>
+
+      <div>
+
+        <div class="sk-lvl">${c.level}</div>
+
+        <div class="sk-pts">${c.xp} XP</div>
+
+      </div>
+
+    </div>`).join('');
+
+}
+
+
+
+function renderAchievements() {
+
+  const achs = [
+
+    {icon:'📖',name:'Book Slayer',desc:'Read 50+ books',locked:false,color:'var(--gold)'},
+
+    {icon:'🧠',name:'Iron Mind',desc:'30-day streak',locked:false,color:'var(--purple2)'},
+
+    {icon:'💻',name:'Code Warrior',desc:'100 commits',locked:false,color:'var(--cyan)'},
+
+    {icon:'🔥',name:'Discipline Master',desc:'60-day streak',locked:true,color:'var(--amber)'},
+
+    {icon:'🏆',name:'Top Scholar',desc:'GPA 9.0+',locked:true,color:'var(--blue2)'},
+
+    {icon:'👑',name:'Social Commander',desc:'Reach Lv 15 Social',locked:true,color:'var(--gold)'},
+
+    {icon:'💪',name:'Iron Body',desc:'Complete 200 workouts',locked:true,color:'var(--green)'},
+
+    {icon:'⚡',name:'Shadow Monarch',desc:'Reach Level 100',locked:true,color:'var(--cyan)'},
+
+  ];
+
+  document.getElementById('ach-grid').innerHTML = achs.map(a => `
+
+    <div class="ach-card ${a.locked?'locked':''}">
+
+      <div class="ach-icon">${a.locked?'🔒':a.icon}</div>
+
+      <div class="ach-name" style="color:${a.locked?'var(--text3)':a.color}">${a.name}</div>
+
+      <div class="ach-desc">${a.desc}</div>
+
+    </div>`).join('');
+
+}
+
+
+
+function renderSWTable() {
+
+  const rows = [
+
+    {label:'Academic Performance', tag:'★ Strong', cls:'sw-strong'},
+
+    {label:'Career & Coding',      tag:'★ Strong', cls:'sw-strong'},
+
+    {label:'Financial Habits',     tag:'◆ Growing', cls:'sw-grow'},
+
+    {label:'Mental Discipline',    tag:'◆ Growing', cls:'sw-grow'},
+
+    {label:'Physical Fitness',     tag:'▼ Needs Work', cls:'sw-weak'},
+
+    {label:'Social Skills',        tag:'▼ Critical Gap', cls:'sw-weak'},
+
+  ];
+
+  document.getElementById('sw-table').innerHTML = rows.map(r =>
+
+    `<div class="sw-row"><div class="sw-label">${r.label}</div><div class="sw-tag ${r.cls}">${r.tag}</div></div>`
+
+  ).join('');
+
+}
+
+
+
+// ===== XP SYSTEM =====
+
+function gainXP(amount, el) {
+
+  STATE.xp += amount;
+
+  STATE.todayXP += amount;
+
+
+
+  // Float animation
+
+  if (el) {
+
+    const rect = el.getBoundingClientRect();
+
+    const floater = document.createElement('div');
+
+    floater.className = 'xp-float';
+
+    floater.textContent = '+' + amount + ' XP';
+
+    floater.style.left = (rect.left + rect.width/2) + 'px';
+
+    floater.style.top = (rect.top - 10) + 'px';
+
+    document.body.appendChild(floater);
+
+    setTimeout(() => floater.remove(), 1500);
+
+  }
+
+
+
+  // Check level up
+
+  if (STATE.xp >= STATE.xpToNext) {
+
+    STATE.xp -= STATE.xpToNext;
+
+    STATE.level++;
+
+    STATE.xpToNext = Math.round(STATE.xpToNext * 1.25);
+
+    updateDashboard();
+
+    showLevelUp();
+
+    saveState();
+
+    return;
+
+  }
+
+  updateDashboard();
+
+  saveState();
+
+}
+
+
+
+function updateDashboard() {
+
+  document.getElementById('dash-xp').textContent = STATE.xp.toLocaleString();
+
+  document.getElementById('dash-xp-today').textContent = '+' + STATE.todayXP + ' today';
+
+  document.getElementById('dash-xp-label').textContent = STATE.xp.toLocaleString() + ' / ' + STATE.xpToNext.toLocaleString() + ' XP';
+
+  document.getElementById('dash-xp-bar').style.width = Math.min(99, Math.round((STATE.xp/STATE.xpToNext)*100)) + '%';
+
+  document.getElementById('dash-level').textContent = STATE.level;
+
+  document.getElementById('dash-rank-badge').textContent = STATE.rank;
+
+  document.getElementById('ph-level').textContent = STATE.level;
+
+  document.getElementById('nav-xp-pill').textContent = '⚡ ' + STATE.xp.toLocaleString() + ' XP';
+
+}
+
+
+
+// ===== FOCUS TIMER =====
+
+function setFocusMode(btn, secs, label, icon, xp) {
+
+  document.querySelectorAll('.focus-mode-btn').forEach(b=>b.classList.remove('active'));
+
+  btn.classList.add('active');
+
+  resetFocus();
+
+  STATE.focusTime = secs;
+
+  STATE.focusMaxTime = secs;
+
+  STATE.focusMode = label;
+
+  STATE.focusXPReward = parseInt(xp);
+
+  setFocusDisplay();
+
+  document.getElementById('focus-lbl').textContent = label;
+
+  saveState();
+
+}
+
+
+
+function setFocusDisplay() {
+
+  const m = Math.floor(STATE.focusTime/60);
+
+  const s = STATE.focusTime%60;
+
+  document.getElementById('focus-time').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+
+  const circ = 2 * Math.PI * 108;
+
+  const offset = circ * (1 - STATE.focusTime/STATE.focusMaxTime);
+
+  document.getElementById('focus-ring').setAttribute('stroke-dashoffset', offset);
+
+  const pct = STATE.focusTime/STATE.focusMaxTime;
+
+  const color = pct > 0.6 ? '#2d7ff9' : pct > 0.3 ? '#ffc400' : '#ff3b3b';
+
+  document.getElementById('focus-ring').setAttribute('stroke', color);
+
+}
+
+function renderFocusStats() {
+
+  document.getElementById('focus-sessions-count').textContent = STATE.focusSessionsToday;
+
+  document.getElementById('focus-total-time').textContent = STATE.focusTotalMin + 'm';
+
+  document.getElementById('focus-xp-earned').textContent = '+' + STATE.focusXPToday;
+
+}
+
+
+
+function toggleFocus() {
+
+  if (STATE.focusRunning) {
+
+    clearInterval(STATE.focusInterval);
+
+    STATE.focusRunning = false;
+
+    document.getElementById('focus-btn').textContent = 'RESUME';
+
+    saveState();
+
+  } else {
+
+    STATE.focusRunning = true;
+
+    document.getElementById('focus-btn').textContent = 'PAUSE';
+
+    STATE.focusInterval = setInterval(() => {
+
+      STATE.focusTime--;
+
+      setFocusDisplay();
+
+      if (STATE.focusTime <= 0) {
+
+        clearInterval(STATE.focusInterval);
+
+        STATE.focusRunning = false;
+
+        document.getElementById('focus-btn').textContent = 'START';
+
+        STATE.focusSessionsToday++;
+
+        STATE.focusTotalMin += Math.round(STATE.focusMaxTime/60);
+
+        STATE.focusXPToday += STATE.focusXPReward;
+
+        document.getElementById('focus-sessions-count').textContent = STATE.focusSessionsToday;
+
+        document.getElementById('focus-total-time').textContent = STATE.focusTotalMin + 'm';
+
+        document.getElementById('focus-xp-earned').textContent = '+' + STATE.focusXPToday;
+
+        gainXP(STATE.focusXPReward, document.getElementById('focus-time'));
+
+        showToast('⏱ Session Complete!', '+'+STATE.focusXPReward+' XP — '+STATE.focusMode+' done!');
+
+        STATE.focusTime = STATE.focusMaxTime;
+
+        setFocusDisplay();
+
+        saveState();
+
+      }
+
+    }, 1000);
+
+  }
+
+}
+
+
+
+function resetFocus() {
+
+  clearInterval(STATE.focusInterval);
+
+  STATE.focusRunning = false;
+
+  STATE.focusTime = STATE.focusMaxTime;
+
+  document.getElementById('focus-btn').textContent = 'START';
+
+  setFocusDisplay();
+
+  saveState();
+
+}
+
+
+
+// ===== JOURNAL =====
+
+function selectMood(el) {
+
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));
+
+  el.classList.add('active');
+
+}
+
+function renderJournalEntries() {
+
+  const wrap = document.getElementById('journal-entries');
+
+  if (!wrap) return;
+
+  wrap.innerHTML = (STATE.journalEntries || []).map(entry => `
+
+    <div class="journal-entry">
+
+      <div class="je-date">${escapeHTML(entry.date)}</div>
+
+      <div class="je-text">${escapeHTML(entry.text)}</div>
+
+      <div class="je-mood">${escapeHTML(entry.mood)}</div>
+
+    </div>`).join('');
+
+}
+
+
+
+function saveJournalEntry() {
+
+  const text = document.getElementById('journal-text').value.trim();
+
+  if (!text) { showToast('⚠ Empty Entry', 'Write something first!'); return; }
+
+  const mood = document.querySelector('.mood-btn.active')?.textContent || '📝 Neutral';
+
+  const date = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  STATE.journalEntries.unshift({ date, text, mood });
+
+  renderJournalEntries();
+
+  document.getElementById('journal-text').value = '';
+
+  gainXP(30, document.getElementById('journal-text'));
+
+  showToast('📓 Entry Saved!', '+30 XP — Mental Growth logged!');
+
+}
+
+
+
+// ===== NOTIFICATIONS =====
+
+function selectNotifMode(el, mode) {
+
+  document.querySelectorAll('.notif-mode-card').forEach(c=>c.classList.remove('sel'));
+
+  el.classList.add('sel');
+
+  STATE.notifMode = mode;
+
+  saveState();
+
+  const msgs = {
+
+    normal: 'Normal Mode activated — friendly accountability.',
+
+    strict: 'Strict Mode engaged — XP penalties active.',
+
+    commander: '⚠ Commander Mode — maximum discipline protocol.'
+
+  };
+
+  showToast('Mode Updated', msgs[mode]);
+
+}
+
+function syncNotifModeUI() {
+
+  document.querySelectorAll('.notif-mode-card').forEach(c=>c.classList.remove('sel'));
+
+  const active = document.getElementById('nmc-' + STATE.notifMode);
+
+  if (active) active.classList.add('sel');
+
+}
+
+
+
+// ===== TOAST =====
+
+let toastTimer = null;
+
+function showToast(label, body, sub='') {
+
+  clearTimeout(toastTimer);
+
+  document.getElementById('toast-label').textContent = label;
+
+  document.getElementById('toast-body').textContent = body;
+
+  document.getElementById('toast-sub').textContent = sub;
+
+  const t = document.getElementById('toast');
+
+  t.classList.add('show');
+
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+
+}
+
+
+
+// ===== LEVEL UP OVERLAY =====
+
+function showLevelUp() {
+
+  document.getElementById('lvlup-num').textContent = STATE.level;
+
+  document.getElementById('lvlup-sub').textContent =
+
+    `You have grown stronger. The System acknowledges your progress. Rank: ${STATE.rank}`;
+
+  document.getElementById('levelup-overlay').classList.add('show');
+
+}
+
+
+
+// ===== PAGE NAVIGATION =====
+
+function switchPage(p) {
+
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+
+  document.querySelectorAll('.bnav').forEach(el=>el.classList.remove('active'));
+
+  const pageEl = document.getElementById('page-'+p);
+
+  if (pageEl) pageEl.classList.add('active');
+
+  const bnavEl = document.getElementById('bnav-'+p);
+
+  if (bnavEl) bnavEl.classList.add('active');
+
+  document.getElementById('notif-dot').style.display = p === 'notif' ? 'none' : '';
+
+}
+
+
+
+function updateNavXP() {
+
+  document.getElementById('nav-xp-pill').textContent = '⚡ ' + STATE.xp.toLocaleString() + ' XP';
+
+}
+
+</script>
+
+</body>
+
+</html> can you chekc this code how mush work this code have completed as per our disscusion and also tell me in percentage how much is it and tell me if there any thing missing
